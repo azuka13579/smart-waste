@@ -1,111 +1,150 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/plus-jakarta-sans";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Warna mengikuti design system Figma "Smart Waste Management System" (hijau sebagai brand). */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --radius: 0.625rem;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --background: oklch(0.977 0.002 165.1);
+  --foreground: oklch(0.236 0.01 163.9);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.236 0.01 163.9);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.236 0.01 163.9);
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --primary: oklch(0.548 0.127 155.3);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.976 0.017 159.1);
+  --secondary-foreground: oklch(0.468 0.103 157);
+  --muted: oklch(0.955 0.005 165);
+  --muted-foreground: oklch(0.565 0.021 165.9);
+  --accent: oklch(0.976 0.017 159.1);
+  --accent-foreground: oklch(0.468 0.103 157);
+  --destructive: oklch(0.577 0.215 27.3);
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  --border: oklch(0.91 0.009 168.7);
+  --input: oklch(0.835 0.014 167.1);
+  --ring: oklch(0.639 0.146 155.1);
+
+  --chart-1: oklch(0.639 0.146 155.1);
+  --chart-2: oklch(0.769 0.165 70.1);
+  --chart-3: oklch(0.623 0.188 259.8);
+  --chart-4: oklch(0.577 0.215 27.3);
+  --chart-5: oklch(0.606 0.219 292.7);
+
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.469 0.019 166);
+  --sidebar-primary: oklch(0.548 0.127 155.3);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.976 0.017 159.1);
+  --sidebar-accent-foreground: oklch(0.468 0.103 157);
+  --sidebar-border: oklch(0.91 0.009 168.7);
+  --sidebar-ring: oklch(0.639 0.146 155.1);
+
+  /* Status laporan */
+  --status-pending: oklch(0.555 0.146 49);
+  --status-pending-subtle: oklch(0.987 0.021 95.3);
+  --status-in-progress: oklch(0.488 0.217 264.4);
+  --status-in-progress-subtle: oklch(0.97 0.014 254.6);
+  --status-completed: oklch(0.468 0.103 157);
+  --status-completed-subtle: oklch(0.976 0.017 159.1);
+  --status-rejected: oklch(0.505 0.19 27.5);
+  --status-rejected-subtle: oklch(0.971 0.013 17.4);
+
+  /* Kategori sampah (hasil model) */
+  --category-organic: oklch(0.432 0.073 55.8);
+  --category-organic-subtle: oklch(0.97 0.01 67.7);
+  --category-plastic: oklch(0.52 0.094 223.1);
+  --category-plastic-subtle: oklch(0.984 0.019 200.9);
+  --category-paper: oklch(0.491 0.241 292.6);
+  --category-paper-subtle: oklch(0.969 0.016 293.8);
+  --category-glass: oklch(0.488 0.217 264.4);
+  --category-glass-subtle: oklch(0.97 0.014 254.6);
+  --category-metal: oklch(0.372 0.039 257.3);
+  --category-metal-subtle: oklch(0.968 0.007 247.9);
+  --category-textile: oklch(0.525 0.199 4);
+  --category-textile-subtle: oklch(0.971 0.014 343.2);
+}
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-subtle: var(--status-pending-subtle);
+  --color-status-in-progress: var(--status-in-progress);
+  --color-status-in-progress-subtle: var(--status-in-progress-subtle);
+  --color-status-completed: var(--status-completed);
+  --color-status-completed-subtle: var(--status-completed-subtle);
+  --color-status-rejected: var(--status-rejected);
+  --color-status-rejected-subtle: var(--status-rejected-subtle);
+
+  --color-category-organic: var(--category-organic);
+  --color-category-organic-subtle: var(--category-organic-subtle);
+  --color-category-plastic: var(--category-plastic);
+  --color-category-plastic-subtle: var(--category-plastic-subtle);
+  --color-category-paper: var(--category-paper);
+  --color-category-paper-subtle: var(--category-paper-subtle);
+  --color-category-glass: var(--category-glass);
+  --color-category-glass-subtle: var(--category-glass-subtle);
+  --color-category-metal: var(--category-metal);
+  --color-category-metal-subtle: var(--category-metal-subtle);
+  --color-category-textile: var(--category-textile);
+  --color-category-textile-subtle: var(--category-textile-subtle);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  html {
+    @apply font-sans antialiased;
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  body {
+    @apply bg-background text-foreground;
   }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
