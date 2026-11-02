@@ -1,0 +1,16 @@
+# Git hooks for the whole monorepo. Commands run inside the package folder (`root`),
+# and {staged_files} are relative to it. Install with: cd backend && bun install
+pre-commit:
+  commands:
+    backend-check:
+      root: "backend/"
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: bun check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      # commitlint and its config live in backend/; {1} is relative to the repo root
+      root: "backend/"
+      run: bun commitlint --edit ../{1}

@@ -1,0 +1,13 @@
+{
+	"extends": ["@tsconfig/bun"],
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "drizzle.config.ts"],
+	"exclude": [],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"skipLibCheck": true,
+		"tsBuildInfoFile": ".tsbuildinfo"
+	}
+}

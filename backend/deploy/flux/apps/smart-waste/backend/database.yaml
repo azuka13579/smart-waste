@@ -1,0 +1,26 @@
+---
+# PostgreSQL 18 is required: primary keys default to uuidv7().
+# CloudNativePG creates the secret `smart-waste-db-app` (keys: uri, host, port, username, password, dbname).
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: smart-waste-db
+spec:
+  instances: 1
+  # Pin a digest for reproducible deploys: ghcr.io/cloudnative-pg/postgresql:18@sha256:...
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  enableSuperuserAccess: false
+  bootstrap:
+    initdb:
+      database: smart_waste
+      owner: smart_waste
+  storage:
+    storageClass: local-path
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
