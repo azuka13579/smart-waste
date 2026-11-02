@@ -27,9 +27,12 @@ export function Stat({ label, value, hint, isLoading = false, className }: StatP
   )
 }
 
-/** Deretan `Stat` dalam satu panel. Garis pemisah berasal dari `gap-px` di atas latar warna border. */
+/**
+ * Deretan `Stat` dalam satu panel. Garis pemisah berasal dari `gap-px` di atas latar warna border.
+ * Jumlah kolom di layar besar bisa diganti lewat `className`, misalnya `lg:grid-cols-5`.
+ */
 export function StatGroup({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={cn("grid grid-cols-2 gap-px overflow-hidden rounded-xl border bg-border lg:grid-cols-4", className)}>{children}</div>
+    <div className={cn("grid grid-cols-2 gap-px overflow-hidden rounded-lg border bg-border lg:grid-cols-4", className)}>{children}</div>
   )
 }

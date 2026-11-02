@@ -20,7 +20,7 @@ export function AuthLayout() {
             </div>
             <span className="text-sm font-semibold text-white">{APP_NAME}</span>
           </div>
-          <div className="rounded-xl bg-card p-6 shadow-lg shadow-black/10 sm:p-8">
+          <div className="rounded-lg bg-card p-6 shadow-lg shadow-black/10 sm:p-8">
             <Outlet />
           </div>
         </div>

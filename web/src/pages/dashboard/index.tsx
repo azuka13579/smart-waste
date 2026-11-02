@@ -8,7 +8,7 @@ import { DailyTrendChart } from "@/components/common/daily-trend-chart"
 import { EmptyState } from "@/components/common/empty-state"
 import { FilterSelect } from "@/components/common/filter-select"
 import { Panel, PanelHeader, PanelSection } from "@/components/common/panel"
-import { ReportThumbnail } from "@/components/common/report-thumbnail"
+import { ReportListItem } from "@/components/common/report-list-item"
 import { Stat, StatGroup } from "@/components/common/stat-card"
 import { getStatusDotClass } from "@/components/common/status-badge"
 import { Button } from "@/components/ui/button"
@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton"
 import { ROUTES } from "@/lib/constants"
 import { ReportStatus, reportStatusLabels, reportStatusOptions, wasteCategoryOptions } from "@/lib/enums/report"
-import { formatCoordinates, formatNumber, formatPercent, formatRelative } from "@/lib/format"
+import { formatNumber, formatPercent, formatRelative } from "@/lib/format"
 import { getReports } from "@/lib/services/report"
 import { getStatistics } from "@/lib/services/statistics"
 import { useSession } from "@/lib/session"
@@ -169,7 +169,6 @@ export default function DashboardPage() {
           <Button variant="ghost" size="sm" asChild>
             <Link to={reportsWith({ status: ReportStatus.Pending })}>
               Lihat semua
-             
             </Link>
           </Button>
         </PanelSection>
@@ -184,19 +183,17 @@ export default function DashboardPage() {
         ) : (
           <ul className="divide-y">
             {pendingReports.map((report) => (
-              <li key={report.id}>
-                <Link to={ROUTES.REPORT.READ(report.id)} className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/50 md:px-5">
-                  <ReportThumbnail src={report.photoUrl} alt="" className="size-10" />
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="truncate text-sm font-semibold">{report.description}</span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      {report.address ?? formatCoordinates(report.latitude, report.longitude)}
-                    </span>
-                  </div>
-                  <span className="hidden shrink-0 text-sm text-muted-foreground sm:block">{report.user.name}</span>
-                  <span className="w-28 shrink-0 text-right text-xs text-muted-foreground">{formatRelative(report.createdAt)}</span>
-                </Link>
-              </li>
+              <ReportListItem
+                key={report.id}
+                report={report}
+                to={ROUTES.REPORT.READ(report.id)}
+                trailing={
+                  <>
+                    <span className="hidden shrink-0 text-sm text-muted-foreground sm:block">{report.user.name}</span>
+                    <span className="w-28 shrink-0 text-right text-xs text-muted-foreground">{formatRelative(report.createdAt)}</span>
+                  </>
+                }
+              />
             ))}
           </ul>
         )}

@@ -3,12 +3,31 @@ import type { ComponentProps, ReactNode } from "react"
 
 /** Kartu putih pembungkus konten halaman. Bagiannya dipisah dengan `PanelSection`. */
 export function Panel({ className, ...props }: ComponentProps<"section">) {
-  return <section className={cn("overflow-hidden rounded-xl border bg-card", className)} {...props} />
+  return <section className={cn("overflow-hidden rounded-lg border bg-card", className)} {...props} />
 }
 
 /** Satu bagian di dalam `Panel`, misalnya header atau toolbar filter, dipisah garis tipis. */
 export function PanelSection({ className, ...props }: ComponentProps<"div">) {
   return <div className={cn("border-b px-4 py-3 last:border-b-0 md:px-5", className)} {...props} />
+}
+
+type PanelFormSectionProps = {
+  title: string
+  description?: ReactNode
+  children: ReactNode
+}
+
+/** Bagian form bergaya halaman pengaturan: judul dan keterangan di kiri, field di kanan (bertumpuk di layar kecil). */
+export function PanelFormSection({ title, description, children }: PanelFormSectionProps) {
+  return (
+    <PanelSection className="grid gap-4 py-5 md:grid-cols-[240px_minmax(0,1fr)] md:gap-8">
+      <div className="flex flex-col gap-1">
+        <h2 className="text-sm font-semibold">{title}</h2>
+        {description && <p className="text-sm text-muted-foreground">{description}</p>}
+      </div>
+      <div className="flex max-w-xl flex-col gap-4">{children}</div>
+    </PanelSection>
+  )
 }
 
 type PanelHeaderProps = {

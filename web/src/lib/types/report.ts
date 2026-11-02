@@ -35,6 +35,28 @@ export type ReportDetail = Report & {
   statusLogs: ReportStatusLog[]
 }
 
+/** Cermin `PredictionsModel.predictionSchema`. */
+export type Prediction = {
+  /** `false` bila keyakinan tertinggi di bawah `threshold`; user diminta memilih kategori sendiri. */
+  recognized: boolean
+  category: WasteCategory | null
+  confidence: number
+  threshold: number
+  probabilities: Record<WasteCategory, number>
+}
+
+/** Cermin `ReportsModel.createdReportSchema`. */
+export type CreatedReport = ReportDetail & {
+  /** `null` bila model sedang tidak tersedia. */
+  prediction: Prediction | null
+}
+
+/** Cermin `ReportsModel.summarySchema` (dashboard user). */
+export type ReportSummary = {
+  total: number
+  byStatus: Record<ReportStatus, number>
+}
+
 export type ReportListQuery = {
   search?: string
   status?: ReportStatus
