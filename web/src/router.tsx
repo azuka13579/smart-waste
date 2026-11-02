@@ -11,6 +11,8 @@ import RegisterPage from "@/pages/auth/register"
 import ComingSoonPage from "@/pages/coming-soon"
 import HomePage from "@/pages/home"
 import NotFoundPage from "@/pages/not-found"
+import ReportDetailPage from "@/pages/reports/detail"
+import ReportsPage from "@/pages/reports"
 
 const handle = (breadcrumb: string): RouteHandle => ({ breadcrumb })
 
@@ -42,8 +44,8 @@ export const router = createBrowserRouter([
                 path: ROUTES.REPORT.INDEX,
                 handle: handle("Laporan Sampah"),
                 children: [
-                  { index: true, element: <ComingSoonPage title="Laporan Sampah" /> },
-                  { path: ":id", element: <ComingSoonPage title="Detail Laporan" />, handle: handle("Detail") },
+                  { index: true, element: <ReportsPage /> },
+                  { path: ":id", element: <ReportDetailPage />, handle: handle("Detail") },
                 ],
               },
             ],

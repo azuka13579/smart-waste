@@ -1,4 +1,4 @@
-import { PageHeader } from "@/components/common/page-header"
+import { Panel, PanelHeader } from "@/components/common/panel"
 import { isStaff } from "@/lib/access"
 import { userRoleLabels } from "@/lib/enums/user"
 import { useSession } from "@/lib/session"
@@ -11,10 +11,9 @@ export default function HomePage() {
 
   return (
     <>
-      <PageHeader
-        title={isStaff(user) ? "Dashboard" : "Beranda"}
-        description={`${user.name} · ${userRoleLabels[user.role]}`}
-      />
+      <Panel>
+        <PanelHeader title={isStaff(user) ? "Dashboard" : "Beranda"} description={`${user.name} · ${userRoleLabels[user.role]}`} />
+      </Panel>
       <ComingSoonPage title={isStaff(user) ? "Dashboard Statistik" : "Ringkasan Laporan Saya"} />
     </>
   )
