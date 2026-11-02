@@ -3,18 +3,20 @@ import { isStaff } from "@/lib/access"
 import { userRoleLabels } from "@/lib/enums/user"
 import { useSession } from "@/lib/session"
 import ComingSoonPage from "@/pages/coming-soon"
+import DashboardPage from "@/pages/dashboard"
 
-/** Staf melihat dashboard statistik, warga melihat ringkasan laporannya. Isinya dibuat di tahap berikutnya. */
+/** Staf melihat dashboard statistik; beranda warga dibuat bersama halaman Laporan Saya. */
 export default function HomePage() {
   const { user } = useSession()
   if (!user) return null
+  if (isStaff(user)) return <DashboardPage />
 
   return (
     <>
       <Panel>
-        <PanelHeader title={isStaff(user) ? "Dashboard" : "Beranda"} description={`${user.name} · ${userRoleLabels[user.role]}`} />
+        <PanelHeader title="Beranda" description={`${user.name} · ${userRoleLabels[user.role]}`} />
       </Panel>
-      <ComingSoonPage title={isStaff(user) ? "Dashboard Statistik" : "Ringkasan Laporan Saya"} />
+      <ComingSoonPage title="Ringkasan Laporan Saya" />
     </>
   )
 }

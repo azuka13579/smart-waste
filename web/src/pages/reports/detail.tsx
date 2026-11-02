@@ -195,7 +195,7 @@ export default function ReportDetailPage() {
                     className="sm:w-full"
                   />
                 </DetailField>
-                <DetailField label="Hasil deteksi AI">
+                <DetailField label="Hasil model klasifikasi">
                   <ModelResult report={report} />
                 </DetailField>
                 <div className="grid grid-cols-2 gap-4">
