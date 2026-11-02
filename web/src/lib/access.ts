@@ -8,7 +8,7 @@ export function can(user: CurrentUser | null | undefined, permission: Permission
   return user.permissions.includes(permission)
 }
 
-/** Halaman pengelola (dashboard statistik) vs halaman warga (laporan saya). */
+/** Halaman pengelola (dashboard statistik) vs halaman user (laporan saya). */
 export function isStaff(user: CurrentUser | null | undefined) {
   return can(user, Permission.ViewStatistics) || can(user, Permission.ManageReports)
 }

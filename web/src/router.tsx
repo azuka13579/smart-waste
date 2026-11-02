@@ -13,6 +13,7 @@ import HomePage from "@/pages/home"
 import NotFoundPage from "@/pages/not-found"
 import ReportDetailPage from "@/pages/reports/detail"
 import ReportsPage from "@/pages/reports"
+import UsersPage from "@/pages/users"
 
 const handle = (breadcrumb: string): RouteHandle => ({ breadcrumb })
 
@@ -66,7 +67,7 @@ export const router = createBrowserRouter([
           },
           {
             element: <RequirePermission permission={Permission.ManageUsers} />,
-            children: [{ path: ROUTES.USER.INDEX, element: <ComingSoonPage title="Pengguna" />, handle: handle("Pengguna") }],
+            children: [{ path: ROUTES.USER.INDEX, element: <UsersPage />, handle: handle("Pengguna") }],
           },
         ],
       },

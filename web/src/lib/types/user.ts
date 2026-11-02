@@ -16,6 +16,15 @@ export type CurrentUser = User & {
   permissions: Permission[]
 }
 
+export type UserListQuery = {
+  /** Cocok dengan nama atau email. */
+  search?: string
+  role?: UserRole
+  isActive?: "true" | "false"
+  page?: number
+  limit?: number
+}
+
 export type SignInResult = {
   token: string
   expiresAt: string

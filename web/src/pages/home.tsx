@@ -5,7 +5,7 @@ import { useSession } from "@/lib/session"
 import ComingSoonPage from "@/pages/coming-soon"
 import DashboardPage from "@/pages/dashboard"
 
-/** Staf melihat dashboard statistik; beranda warga dibuat bersama halaman Laporan Saya. */
+/** Admin melihat dashboard statistik; beranda user dibuat bersama halaman Laporan Saya. */
 export default function HomePage() {
   const { user } = useSession()
   if (!user) return null

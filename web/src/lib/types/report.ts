@@ -9,7 +9,7 @@ export type Report = {
   latitude: number
   longitude: number
   address: string | null
-  /** Kategori akhir: hasil model, pilihan warga, atau koreksi petugas. */
+  /** Kategori akhir: hasil model, pilihan user, atau koreksi admin. */
   category: WasteCategory | null
   /** Hasil model saat laporan dibuat; null bila di bawah ambang keyakinan. */
   modelCategory: WasteCategory | null

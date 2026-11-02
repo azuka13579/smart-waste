@@ -220,7 +220,7 @@ export default function ReportDetailPage() {
   )
 }
 
-/** Hasil model saat laporan dibuat, terpisah dari kategori akhir yang bisa dikoreksi petugas. */
+/** Hasil model saat laporan dibuat, terpisah dari kategori akhir yang bisa dikoreksi admin. */
 function ModelResult({ report }: { report: ReportDetail }) {
   if (report.modelConfidence === null) return <span className="text-muted-foreground">Model tidak dijalankan</span>
 

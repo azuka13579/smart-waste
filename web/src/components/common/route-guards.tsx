@@ -30,7 +30,7 @@ export function GuestOnly() {
 
 type RequirePermissionProps = {
   permission: Permission
-  /** `false` untuk fitur khusus warga yang tidak ikut terbuka bagi ADMINISTRATOR. */
+  /** `false` untuk fitur khusus user yang tidak ikut terbuka bagi ADMINISTRATOR. */
   bypassAdministrator?: boolean
 }
 

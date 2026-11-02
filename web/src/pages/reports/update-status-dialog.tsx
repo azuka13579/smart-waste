@@ -23,7 +23,7 @@ import { type UpdateReportStatusValues, updateReportStatusPayloadSchema } from "
 import { updateReportStatus } from "@/lib/services/report"
 import type { ReportDetail } from "@/lib/types/report"
 
-/** Status berikutnya yang paling umum, agar petugas cukup menekan "Simpan". */
+/** Status berikutnya yang paling umum, agar admin cukup menekan "Simpan". */
 const NEXT_STATUS: Record<ReportStatus, ReportStatus> = {
   [ReportStatus.Pending]: ReportStatus.InProgress,
   [ReportStatus.InProgress]: ReportStatus.Completed,
@@ -104,7 +104,7 @@ export function UpdateStatusDialog({ report, onUpdated }: UpdateStatusDialogProp
                 <TextareaField
                   field={field}
                   label={selectedStatus === ReportStatus.Rejected ? "Alasan penolakan" : "Catatan (opsional)"}
-                  description="Catatan terlihat oleh warga pelapor."
+                  description="Catatan terlihat oleh user yang melapor."
                   rows={3}
                 />
               )}

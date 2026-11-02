@@ -4,7 +4,7 @@ import { jsonInit, readResponse, toQueryString } from "@/lib/http"
 import type { UpdateReportPayload } from "@/lib/schemas/report"
 import type { Report, ReportDetail, ReportListQuery } from "@/lib/types/report"
 
-/* ── Pengelola (admin & petugas): /reports ─────────────────────── */
+/* ── Pengelola (admin): /reports ───────────────────────────────── */
 
 export async function getReports(query: ReportListQuery = {}) {
   const response = await fetch(`${API_ROUTES.REPORTS.INDEX}${toQueryString(query)}`, jsonInit("GET"))

@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { ArrowRightIcon, InboxIcon } from "lucide-react"
+import { InboxIcon } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router"
 
@@ -80,7 +80,7 @@ export default function DashboardPage() {
         <Stat label="Total laporan" value={formatNumber(stats?.totals.reports ?? 0)} isLoading={isLoading} />
         <Stat label="Laporan hari ini" value={formatNumber(stats?.totals.reportsToday ?? 0)} isLoading={isLoading} />
         <Stat label="Menunggu penanganan" value={formatNumber(stats?.byStatus.pending ?? 0)} isLoading={isLoading} />
-        <Stat label="Warga terdaftar" value={formatNumber(stats?.totals.users ?? 0)} isLoading={isLoading} />
+        <Stat label="User terdaftar" value={formatNumber(stats?.totals.users ?? 0)} isLoading={isLoading} />
       </StatGroup>
 
       <div className="grid gap-4 xl:grid-cols-3">

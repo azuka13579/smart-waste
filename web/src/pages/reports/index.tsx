@@ -120,7 +120,7 @@ export default function ReportsPage() {
               }
             />
           ) : (
-            <EmptyState icon={ClipboardListIcon} title="Belum ada laporan" description="Laporan dari warga akan muncul di sini." />
+            <EmptyState icon={ClipboardListIcon} title="Belum ada laporan" description="Laporan dari user akan muncul di sini." />
           )
         }
       />
