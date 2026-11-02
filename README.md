@@ -7,7 +7,7 @@ Sistem pelaporan dan pengelolaan sampah: warga melapor lewat aplikasi mobile (fo
 ```
 Mobile (Expo) ──┐
                 ├──► Backend (Elysia) ──► PostgreSQL
-Web (Next.js) ──┘         │    └──► Cloudflare R2 (foto)
+Web (React)   ──┘         │    └──► Cloudflare R2 (foto)
                           └──► model klasifikasi (ONNX Runtime)
 ```
 
@@ -18,7 +18,7 @@ Model klasifikasi ditraining di Python (TensorFlow/Keras), diekspor ke ONNX, lal
 | Folder | Isi | Stack |
 |---|---|---|
 | `backend/` | REST API, auth, CRUD laporan, statistik | Bun, Elysia, Drizzle ORM, PostgreSQL |
-| `web/` | Dashboard admin dan user | Next.js, Tailwind CSS, shadcn/ui |
+| `web/` | Dashboard admin dan user | React (Vite), React Router, TanStack Query, Tailwind CSS, shadcn/ui |
 | `mobile/` | Aplikasi pelaporan untuk user | React Native (Expo) |
 | `ml/` | Dataset, notebook training, export dan uji model ONNX | Python, TensorFlow/Keras, ONNX |
 | `docs/` | ERD, hasil evaluasi model, screenshot | - |
@@ -67,7 +67,7 @@ bun run dev
 ```bash
 cd web
 pnpm install
-cp .env.example .env.local
+cp .env.example .env
 pnpm dev
 ```
 
