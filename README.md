@@ -21,6 +21,10 @@ Web (Next.js) ──┘         │    └──► Cloudflare R2 (foto)
 | `ml/` | Dataset, notebook training, model, API prediksi | Python, TensorFlow/Keras, FastAPI |
 | `docs/` | ERD, hasil evaluasi model, screenshot | - |
 
+## Database
+
+ERD dan penjelasan tabel: [`docs/erd/`](docs/erd/README.md) (tabel `users`, `reports`, `report_status_logs`).
+
 ## Link
 
 - Demo website: _TODO_
