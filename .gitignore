@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+
+# Build output
+.next/
+dist/
+build/
+*.apk
+*.aab
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Dataset (dibagikan lewat link Google Drive, lihat README)
+ml/data/*
+!ml/data/*/
+ml/data/*/*
+!ml/data/*/.gitkeep
+
+# Misc
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/

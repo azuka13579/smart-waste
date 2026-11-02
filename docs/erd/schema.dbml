@@ -1,0 +1,77 @@
+// Smart Waste Management System
+// Tempel isi file ini di https://dbdiagram.io lalu Export → PNG untuk gambar ERD.
+
+Project smart_waste {
+  database_type: 'PostgreSQL'
+}
+
+Enum user_role {
+  admin
+  user
+}
+
+Enum report_status {
+  pending
+  in_progress
+  completed
+  rejected
+}
+
+Enum waste_category {
+  glass
+  metal
+  organic
+  paper
+  plastic
+  textile
+}
+
+Table users {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100) [not null]
+  email varchar(255) [not null, unique]
+  password_hash varchar(255) [not null]
+  role user_role [not null, default: 'user']
+  is_active boolean [not null, default: true]
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+}
+
+Table reports {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [not null, ref: > users.id]
+  description text [not null]
+  photo_key varchar(255) [not null, note: 'Object key di Cloudflare R2']
+  latitude numeric(9,6) [not null]
+  longitude numeric(9,6) [not null]
+  address text
+  category waste_category [note: 'Kategori final (AI atau pilihan manual)']
+  ai_category waste_category [note: 'Hasil model; null jika tidak dikenali']
+  ai_confidence real [note: '0-1']
+  status report_status [not null, default: 'pending']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    user_id
+    status
+    created_at
+    category
+  }
+}
+
+Table report_status_logs {
+  id uuid [pk, default: `gen_random_uuid()`]
+  report_id uuid [not null]
+  changed_by uuid [not null, ref: > users.id]
+  from_status report_status [note: 'null saat laporan dibuat']
+  to_status report_status [not null]
+  note text [note: 'Mis. alasan laporan ditolak']
+  created_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    report_id
+  }
+}
+
+Ref: report_status_logs.report_id > reports.id [delete: cascade]
