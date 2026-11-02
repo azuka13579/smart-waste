@@ -10,7 +10,11 @@ export const StatisticsController = new Elysia({ prefix: "/statistics", tags: [R
 	.resolve(TrackingDecorator)
 	.resolve(resolveSession)
 	.get("/", async ({ query }) => ResponseBuilder.ok(await StatisticsService.dashboard(query)), {
-		detail: { description: "Admin dashboard: totals, reports per status and category, daily trend for the last `days` days, and model agreement." },
+		detail: {
+			description:
+				"Admin dashboard: totals, reports per status and category, daily trend for the last `days` days, and model agreement. " +
+				"`status` narrows only the daily trend to reports currently in that status."
+		},
 		beforeHandle: userHasAnyPermissionGuard([PermissionFlags.VIEW_STATISTICS]),
 		query: StatisticsModel.dashboardQuery,
 		response: { 200: SuccessResponseSchema(StatisticsModel.dashboardSchema), 401: ResponseErrorSchema, 403: ResponseErrorSchema }

@@ -8,14 +8,16 @@ const localDate = sql`(${reports.createdAt} at time zone ${AppTimeZone})::date`;
 const today = sql`(now() at time zone ${AppTimeZone})::date`;
 
 export abstract class StatisticsService {
-	public static async dashboard({ days }: StatisticsModel.dashboardQuery) {
+	public static async dashboard({ days, status }: StatisticsModel.dashboardQuery) {
+		const dailyStatusFilter = status ? sql`and ${reports.status} = ${status}` : sql``;
+
 		const [statusRows, categoryRows, dailyRows, [reportTotals], [userTotals], [modelTotals]] = await Promise.all([
 			db.select({ status: reports.status, count: count() }).from(reports).groupBy(reports.status),
 			db.select({ category: reports.category, count: count() }).from(reports).groupBy(reports.category),
 			db.execute<{ date: string; count: number }>(sql`
 				select to_char(day, 'YYYY-MM-DD') as date, count(${reports.id})::int as count
 				from generate_series(${today} - ${days - 1}::int, ${today}, interval '1 day') as day
-				left join ${reports} on ${localDate} = day::date
+				left join ${reports} on ${localDate} = day::date ${dailyStatusFilter}
 				group by day
 				order by day
 			`),
