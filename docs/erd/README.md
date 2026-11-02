@@ -1,42 +1,53 @@
 # ERD – Smart Waste Management System
 
-Database: PostgreSQL. Versi DBML untuk [dbdiagram.io](https://dbdiagram.io) ada di [`schema.dbml`](schema.dbml).
+Database: PostgreSQL 18 (dibutuhkan untuk `uuidv7()`). Versi DBML untuk [dbdiagram.io](https://dbdiagram.io) ada di [`schema.dbml`](schema.dbml). Sumber kebenaran skema ada di `backend/src/database/schema/`, dan migrasinya di `backend/drizzle/`.
 
 ```mermaid
 erDiagram
     users ||--o{ reports : "membuat"
     users ||--o{ report_status_logs : "mengubah status"
+    users ||--o{ user_sessions : "login"
     reports ||--o{ report_status_logs : "memiliki riwayat"
 
     users {
-        uuid id PK
+        uuid id PK "uuidv7"
         varchar name
-        varchar email UK
-        varchar password_hash
+        varchar email UK "selalu huruf kecil"
+        varchar password "hash argon2id"
         user_role role "admin | user"
         boolean is_active
         timestamptz created_at
         timestamptz updated_at
     }
 
+    user_sessions {
+        uuid id PK "uuidv7"
+        uuid user_id FK
+        text token UK
+        text ip_address
+        text user_agent
+        timestamptz expires_at
+        timestamptz created_at
+    }
+
     reports {
-        uuid id PK
+        uuid id PK "uuidv7"
         uuid user_id FK
         text description
-        varchar photo_key "object key di Cloudflare R2"
+        varchar photo_key "object key di storage"
         numeric latitude
         numeric longitude
         text address "opsional"
         waste_category category "kategori final"
-        waste_category ai_category "hasil model, null jika tidak dikenali"
-        real ai_confidence "0-1"
+        waste_category model_category "hasil model, null jika tidak dikenali"
+        real model_confidence "0-1"
         report_status status "default pending"
         timestamptz created_at
         timestamptz updated_at
     }
 
     report_status_logs {
-        uuid id PK
+        uuid id PK "uuidv7"
         uuid report_id FK
         uuid changed_by FK "users.id"
         report_status from_status "null saat laporan dibuat"
@@ -59,29 +70,33 @@ Nilai `waste_category` sama dengan urutan kelas model di `ml/models/labels.json`
 ## Tabel
 
 ### `users`
-Akun admin dan warga. Role menentukan menu dan endpoint yang bisa diakses. Akun tidak dihapus permanen, cukup dinonaktifkan lewat `is_active` supaya laporan lamanya tetap punya pemilik.
+Akun admin dan warga. Role menentukan permission (lihat `backend/src/constants/permissions.ts`). Akun tidak dihapus permanen, cukup dinonaktifkan lewat `is_active` supaya laporan lamanya tetap punya pemilik. Kolom `password` berisi hash argon2id, bukan password asli.
+
+### `user_sessions`
+Sesi login. Token dikirim ke web sebagai cookie httpOnly dan ke mobile sebagai `Authorization: Bearer <token>`. Logout menghapus barisnya, dan menonaktifkan user atau mereset password-nya menghapus semua sesinya.
 
 ### `reports`
 Laporan sampah dari warga.
 
 | Kolom | Keterangan |
 |---|---|
-| `photo_key` | Key file di R2, bukan URL lengkap. URL dibentuk backend, jadi domain storage bisa diganti tanpa mengubah data. |
+| `photo_key` | Key file di storage (R2 atau folder lokal), bukan URL lengkap. URL dibentuk backend, jadi domain storage bisa diganti tanpa mengubah data. |
 | `latitude`, `longitude` | `numeric(9,6)`, presisi sekitar 10 cm. |
-| `ai_category`, `ai_confidence` | Hasil model saat laporan dibuat. `ai_category` bernilai null jika confidence di bawah ambang batas ("tidak dikenali"). |
-| `category` | Kategori final: hasil AI yang diterima pengguna, atau pilihan manual pengguna. Admin juga bisa mengoreksinya. |
+| `model_category`, `model_confidence` | Hasil model saat laporan dibuat (dijalankan di server). `model_category` bernilai null jika confidence di bawah ambang batas ("tidak dikenali"). |
+| `category` | Kategori final: hasil model yang diterima pengguna, atau pilihan manual pengguna. Admin juga bisa mengoreksinya. |
 | `status` | Status terkini, disalin dari log terakhir supaya filter dan statistik dashboard cukup membaca satu tabel. |
 
-Kolom AI dan kolom final dipisah supaya akurasi model di dunia nyata bisa diukur: bandingkan `ai_category` dengan `category`.
+Kolom model dan kolom final dipisah supaya akurasi model di dunia nyata bisa diukur dengan membandingkan `model_category` dan `category`. Angka ini ditampilkan di `GET /statistics` sebagai `model.agreementRate`.
 
 ### `report_status_logs`
-Riwayat perubahan status. Satu baris dibuat saat laporan dikirim (`from_status` null, `to_status` pending) dan setiap kali admin mengubah status. Dipakai untuk timeline di detail laporan (mobile dan web) dan untuk menyimpan alasan penolakan di `note`.
+Riwayat perubahan status. Satu baris dibuat saat laporan dikirim (`from_status` null, `to_status` pending) dan setiap kali admin mengubah status. Dipakai untuk timeline di detail laporan (mobile dan web) dan untuk menyimpan alasan penolakan di `note` (wajib saat status `rejected`).
 
 ## Relasi
 
 | Relasi | Kardinalitas | On delete |
 |---|---|---|
 | `users` → `reports` | 1 : N | `restrict` |
+| `users` → `user_sessions` | 1 : N | `cascade` |
 | `reports` → `report_status_logs` | 1 : N | `cascade` |
 | `users` → `report_status_logs` (`changed_by`) | 1 : N | `restrict` |
 
@@ -90,6 +105,7 @@ Riwayat perubahan status. Satu baris dibuat saat laporan dikirim (`from_status` 
 | Tabel | Kolom | Untuk |
 |---|---|---|
 | `users` | `email` (unique) | Login |
+| `user_sessions` | `token` (unique), `user_id` | Validasi sesi, logout semua sesi |
 | `reports` | `user_id` | Riwayat laporan milik user |
 | `reports` | `status` | Filter status, statistik per status |
 | `reports` | `created_at` | Urutan terbaru, tren harian |

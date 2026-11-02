@@ -8,8 +8,10 @@ Sistem pelaporan dan pengelolaan sampah: warga melapor lewat aplikasi mobile (fo
 Mobile (Expo) ──┐
                 ├──► Backend (Elysia) ──► PostgreSQL
 Web (Next.js) ──┘         │    └──► Cloudflare R2 (foto)
-                          └──► ML API (FastAPI) ──► model klasifikasi
+                          └──► model klasifikasi (ONNX Runtime)
 ```
+
+Model klasifikasi ditraining di Python (TensorFlow/Keras), diekspor ke ONNX, lalu dijalankan langsung di backend Elysia dengan `onnxruntime-node`. Tidak ada server Python terpisah.
 
 ## Struktur Repository
 
@@ -18,7 +20,7 @@ Web (Next.js) ──┘         │    └──► Cloudflare R2 (foto)
 | `backend/` | REST API, auth, CRUD laporan, statistik | Bun, Elysia, Drizzle ORM, PostgreSQL |
 | `web/` | Dashboard admin dan user | Next.js, Tailwind CSS, shadcn/ui |
 | `mobile/` | Aplikasi pelaporan untuk user | React Native (Expo) |
-| `ml/` | Dataset, notebook training, model, API prediksi | Python, TensorFlow/Keras, FastAPI |
+| `ml/` | Dataset, notebook training, export dan uji model ONNX | Python, TensorFlow/Keras, ONNX |
 | `docs/` | ERD, hasil evaluasi model, screenshot | - |
 
 ## Database
@@ -29,8 +31,7 @@ ERD dan penjelasan tabel: [`docs/erd/`](docs/erd/README.md) (tabel `users`, `rep
 
 - Demo website: _TODO_
 - APK: _TODO_
-- Dokumentasi API backend: _TODO_
-- Dokumentasi API ML: _TODO_
+- Dokumentasi API (termasuk endpoint prediksi gambar): _TODO_
 - Video demo: _TODO_
 
 ## Akun Demo
@@ -42,13 +43,15 @@ ERD dan penjelasan tabel: [`docs/erd/`](docs/erd/README.md) (tabel `users`, `rep
 
 ## Dataset
 
-- Sumber: _TODO (nama dataset, pembuat, link Kaggle)_
-- Salinan yang dipakai: _TODO (link Google Drive)_
-- Kategori: Organic Waste, Plastic Waste, Paper Waste
+- Sumber: Alistair King, *Recyclable and Household Waste Classification*, Kaggle – https://www.kaggle.com/datasets/alistairking/recyclable-and-household-waste-classification
+- Salinan yang dipakai: _TODO (link Google Drive `dataset_6class.zip`)_
+- Kategori (6): glass, metal, organic, paper, plastic, textile – 1.000 gambar per kelas, dibagi 70/15/15. Detail di [`ml/README.md`](ml/README.md).
 
 ## Hasil Evaluasi Model
 
-_TODO: accuracy, confusion matrix, dan classification report (lihat `docs/evaluation/`)_
+MobileNetV2 dengan transfer learning, **test accuracy 90,22%** (900 gambar test). F1-score per kelas antara 0,84 (plastic) dan 0,94 (textile). Model ONNX menghasilkan prediksi identik dengan model Keras (900/900).
+
+Confusion matrix, grafik training, dan classification report: [`docs/evaluation/`](docs/evaluation/).
 
 ## Instalasi
 
@@ -76,10 +79,11 @@ npx expo start
 ```
 
 ### ML
+
+Training dan export model dijalankan di Google Colab. Langkah lengkapnya ada di [`ml/README.md`](ml/README.md). Untuk menguji model ONNX secara lokal:
+
 ```bash
-cd ml
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn api.main:app --reload
+cd ml/onnx-check
+bun install
+bun run check.ts
 ```
