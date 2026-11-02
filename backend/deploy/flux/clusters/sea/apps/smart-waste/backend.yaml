@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: smart-waste-backend
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: apps-smart-waste-backend
+  namespace: flux-system
+spec:
+  targetNamespace: smart-waste-backend
+  interval: 1h
+  retryInterval: 1m
+  timeout: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/smart-waste/backend
+  prune: true
+  wait: true
+  suspend: false
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-smart-waste-age
+  dependsOn:
+    - name: configs-cert-manager
+    - name: system-cloudnative-pg
+    - name: system-haproxy-ingress

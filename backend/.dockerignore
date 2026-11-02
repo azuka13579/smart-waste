@@ -1,0 +1,37 @@
+# dependencies & build output (rebuilt inside the image)
+/node_modules
+/dist
+
+# local data
+/uploads
+.tsbuildinfo
+
+# env files (configuration comes from Kubernetes)
+.env
+.env.*
+!.env.example
+
+# git, CI, deploy manifests, docs
+.git
+.github/
+deploy/
+docs/
+*.md
+
+# tooling
+biome.json
+lefthook.yml
+drizzle.config.ts
+
+# logs & archives
+**/*.log
+**/*.trace
+**/*.zip
+**/*.tar.gz
+**/*.tgz
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

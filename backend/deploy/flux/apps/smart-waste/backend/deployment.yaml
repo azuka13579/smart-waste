@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  # Sessions live in PostgreSQL and photos in R2, so this can scale beyond 1 replica
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: smart-waste
+      app.kubernetes.io/component: backend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: smart-waste
+        app.kubernetes.io/component: backend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-pull
+      initContainers:
+        - name: wait-for-db
+          image: wait4x/wait4x:3
+          command: ["wait4x", "--timeout", "120s", "postgresql", "$(DATABASE_URL)?sslmode=disable"]
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: smart-waste-db-app
+                  key: uri
+      containers:
+        - name: backend
+          # Flux rewrites this tag on every new build (see image.yaml)
+          image: ghcr.io/<owner>/backend:main-20260101000000 # {"$imagepolicy": "smart-waste-backend:backend"}
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: smart-waste-db-app
+                  key: uri
+          envFrom:
+            - configMapRef:
+                name: smart-waste-config
+            - secretRef:
+                name: smart-waste-secrets
+          resources:
+            # The ONNX model (~9 MB) plus onnxruntime use roughly 200-300 MiB
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      terminationGracePeriodSeconds: 30
