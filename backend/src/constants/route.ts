@@ -1,5 +1,6 @@
 export enum RouteTag {
 	General = "General",
+	Health = "Health",
 	Auth = "Auth",
 	Users = "Users",
 	Reports = "Reports",
@@ -11,6 +12,10 @@ export const RouteTagsMeta = [
 	{
 		name: RouteTag.General,
 		description: "General routes"
+	},
+	{
+		name: RouteTag.Health,
+		description: "Health check endpoints"
 	},
 	{
 		name: RouteTag.Auth,
