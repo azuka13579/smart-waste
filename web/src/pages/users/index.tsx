@@ -91,18 +91,23 @@ export default function UsersPage() {
         />
 
         <PanelSection className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
-          <SearchInput value={values.search} onSearch={(search) => setParams({ search })} placeholder="Cari nama atau email" className="sm:w-72" />
+          <SearchInput value={values.search} onSearch={(search) => setParams({ search })} placeholder="Cari nama atau email"
+            label="Cari pengguna"
+            className="sm:w-72"
+          />
           <FilterSelect
             value={values.role as UserRole | ""}
             onChange={(role) => setParams({ role })}
             options={userRoleOptions}
             allLabel="Semua role"
+            label="Filter role"
           />
           <FilterSelect
             value={values.isActive as "true" | "false" | ""}
             onChange={(isActive) => setParams({ isActive })}
             options={ACTIVE_OPTIONS}
             allLabel="Semua status"
+            label="Filter status"
           />
           {hasActiveFilters && (
             <Button variant="ghost" size="sm" onClick={resetParams}>
@@ -119,6 +124,7 @@ export default function UsersPage() {
           pagination={pagination}
           onPageChange={(next) => setParams({ page: next })}
           onRowClick={(user) => setEditing(user)}
+          getRowLabel={(user) => `Edit pengguna: ${user.name}`}
           emptyState={
             usersQuery.isError ? (
               <EmptyState icon={SearchXIcon} title="Gagal memuat pengguna" description={getErrorMessage(usersQuery.error)} />

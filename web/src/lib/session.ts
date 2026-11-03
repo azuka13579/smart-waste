@@ -14,7 +14,14 @@ export function useSession() {
     refetchOnWindowFocus: true,
   })
 
-  return { user: query.data ?? null, isLoading: query.isPending, refetch: query.refetch }
+  // `getCurrentUser` mengembalikan null untuk 401; error di sini berarti server tidak bisa dihubungi, bukan belum login
+  return {
+    user: query.data ?? null,
+    isLoading: query.isPending,
+    error: query.data === undefined ? query.error : null,
+    isRefetching: query.isFetching,
+    refetch: query.refetch,
+  }
 }
 
 /** Dipakai setelah login/register/logout agar seluruh app langsung tahu status sesi terbaru. */

@@ -10,10 +10,12 @@ type SearchInputProps = {
   /** Dipanggil setelah user berhenti mengetik (debounce), bukan di setiap ketukan. */
   onSearch: (value: string) => void
   placeholder?: string
+  /** Nama untuk pembaca layar; placeholder bukan pengganti label. */
+  label?: string
   className?: string
 }
 
-export function SearchInput({ value, onSearch, placeholder = "Cari...", className }: SearchInputProps) {
+export function SearchInput({ value, onSearch, placeholder = "Cari...", label = "Cari", className }: SearchInputProps) {
   const [draft, setDraft] = useState(value)
   const debounced = useDebouncedValue(draft)
 
@@ -33,13 +35,15 @@ export function SearchInput({ value, onSearch, placeholder = "Cari...", classNam
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         placeholder={placeholder}
-        className="pr-8 pl-8 [&::-webkit-search-cancel-button]:hidden"
+        aria-label={label}
+        className="pr-9 pl-8 [&::-webkit-search-cancel-button]:hidden"
       />
       {draft && (
+        // Area sentuh 28px (WCAG 2.5.8 minimal 24px); ikon tetap kecil
         <button
           type="button"
           onClick={() => setDraft("")}
-          className="absolute top-1/2 right-2 -translate-y-1/2 rounded-sm p-0.5 text-muted-foreground hover:text-foreground"
+          className="absolute top-1/2 right-1 flex size-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Hapus pencarian"
         >
           <XIcon className="size-3.5" />

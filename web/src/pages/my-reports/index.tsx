@@ -62,18 +62,23 @@ export default function MyReportsPage() {
       />
 
       <PanelSection className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
-        <SearchInput value={values.search} onSearch={(search) => setParams({ search })} placeholder="Cari deskripsi atau alamat" className="sm:w-80" />
+        <SearchInput value={values.search} onSearch={(search) => setParams({ search })} placeholder="Cari deskripsi atau alamat"
+          label="Cari laporan"
+          className="sm:w-80"
+        />
         <FilterSelect
           value={values.status as ReportStatus | ""}
           onChange={(status) => setParams({ status })}
           options={reportStatusOptions}
           allLabel="Semua status"
+          label="Filter status"
         />
         <FilterSelect
           value={values.category as WasteCategory | ""}
           onChange={(category) => setParams({ category })}
           options={wasteCategoryOptions}
           allLabel="Semua kategori"
+          label="Filter kategori"
         />
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" onClick={resetParams}>
@@ -90,6 +95,7 @@ export default function MyReportsPage() {
         pagination={pagination}
         onPageChange={(next) => setParams({ page: next })}
         onRowClick={(report) => navigate(ROUTES.MY_REPORT.READ(report.id))}
+        getRowLabel={(report) => `Buka laporan: ${report.description}`}
         emptyState={
           reportsQuery.isError ? (
             <EmptyState icon={SearchXIcon} title="Gagal memuat laporan" description={getErrorMessage(reportsQuery.error)} />

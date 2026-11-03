@@ -6,7 +6,8 @@ export class ApiError extends Error {
   readonly validationErrors: ValidationIssue[]
 
   constructor(status: number, body: ApiErrorBody | null) {
-    super(body?.message ?? `Request failed (${status})`)
+    // Respons tanpa pesan biasanya berarti server atau proxy di depannya sedang bermasalah
+    super(body?.message ?? (status >= 500 ? "Server sedang tidak bisa dihubungi. Coba lagi beberapa saat lagi." : `Permintaan gagal (${status})`))
     this.name = "ApiError"
     this.status = status
     this.validationErrors = Array.isArray(body?.error) ? body.error : []

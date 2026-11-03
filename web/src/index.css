@@ -21,7 +21,8 @@
   --secondary: oklch(0.976 0.017 159.1);
   --secondary-foreground: oklch(0.468 0.103 157);
   --muted: oklch(0.955 0.005 165);
-  --muted-foreground: oklch(0.565 0.021 165.9);
+  /* L 0.53: minimal 4.5:1 di atas card, background, muted, dan muted/50 (header tabel) */
+  --muted-foreground: oklch(0.53 0.021 165.9);
   --accent: oklch(0.976 0.017 159.1);
   --accent-foreground: oklch(0.468 0.103 157);
   --destructive: oklch(0.577 0.215 27.3);
@@ -113,5 +114,28 @@
   }
   body {
     @apply bg-background text-foreground;
+    caret-color: var(--primary);
+    accent-color: var(--primary);
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 22%, transparent);
+    color: var(--foreground);
+  }
+}
+
+/* Gerak minimal: dialog, menu, dan tooltip cukup memudar, tanpa membesar atau bergeser */
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="dialog-content"],
+  [data-slot="alert-dialog-content"],
+  [data-slot="sheet-content"],
+  [data-slot="dropdown-menu-content"],
+  [data-slot="select-content"],
+  [data-slot="tooltip-content"] {
+    --tw-enter-scale: 1;
+    --tw-exit-scale: 1;
+    --tw-enter-translate-x: 0;
+    --tw-enter-translate-y: 0;
+    --tw-exit-translate-x: 0;
+    --tw-exit-translate-y: 0;
   }
 }

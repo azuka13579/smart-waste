@@ -5,8 +5,16 @@ import L, { type LatLngExpression } from "leaflet"
 import { useEffect, type ReactNode } from "react"
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet"
 
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+
 /** Pusat kota Bogor, dipakai saat belum ada titik yang dipilih. */
 export const DEFAULT_MAP_CENTER: [number, number] = [-6.595038, 106.816635]
+
+/**
+ * Di layar sentuh, geser satu jari dimatikan agar usapan di atas peta tetap menggulir halaman.
+ * Tanpa `dragging`, Leaflet memasang `touch-action: pan-x pan-y`; peta masih bisa digeser dan di-zoom dengan dua jari.
+ */
+const isTouchScreen = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
 
 /** Pin bulat hijau dari CSS, agar tidak bergantung pada gambar marker bawaan Leaflet yang sering rusak di bundler. */
 const pinIcon = L.divIcon({
@@ -31,12 +39,13 @@ type LocationMapProps = {
 /** Peta OpenStreetMap dengan satu pin. `isolate` menjaga z-index Leaflet tetap di bawah dialog dan dropdown. */
 export function LocationMap({ position, zoom = 16, className, onPick, flyKey, children }: LocationMapProps) {
   return (
-    <div className={cn("isolate overflow-hidden rounded-lg border", className)}>
+    <div className={cn("relative isolate overflow-hidden rounded-lg border", className)}>
       <MapContainer
         center={position ?? DEFAULT_MAP_CENTER}
         zoom={position ? zoom : 13}
         // Scroll halaman tidak boleh "tersangkut" men-zoom peta; zoom lewat tombol +/− atau pinch
         scrollWheelZoom={false}
+        dragging={!isTouchScreen}
         className="size-full"
         attributionControl
       >
@@ -63,6 +72,11 @@ export function LocationMap({ position, zoom = 16, className, onPick, flyKey, ch
         <FlyToPosition position={position} zoom={zoom} flyKey={flyKey} />
         {children}
       </MapContainer>
+      {isTouchScreen && (
+        <p className="pointer-events-none absolute right-2 bottom-6 z-[1000] rounded-md bg-card/90 px-2 py-1 text-xs text-muted-foreground">
+          Geser peta dengan dua jari
+        </p>
+      )}
     </div>
   )
 }
@@ -74,10 +88,14 @@ function PickOnClick({ onPick }: { onPick: (position: [number, number]) => void 
 
 function FlyToPosition({ position, zoom, flyKey }: { position: [number, number] | null; zoom: number; flyKey?: number }) {
   const map = useMap()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     if (flyKey === undefined || !position) return
-    map.flyTo(position as LatLngExpression, Math.max(map.getZoom(), zoom), { duration: 0.6 })
+    const target = Math.max(map.getZoom(), zoom)
+    // Gerak minimal: langsung pindah tanpa animasi terbang
+    if (prefersReducedMotion) map.setView(position as LatLngExpression, target)
+    else map.flyTo(position as LatLngExpression, target, { duration: 0.6 })
     // eslint-disable-next-line react-hooks/exhaustive-deps -- hanya terbang saat flyKey berubah, bukan saat pin digeser
   }, [flyKey])
 

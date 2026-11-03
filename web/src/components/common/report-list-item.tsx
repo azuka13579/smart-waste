@@ -17,7 +17,7 @@ export function ReportListItem({ report, to, trailing }: ReportListItemProps) {
   return (
     <li>
       <Link to={to} className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/50 md:px-5">
-        <ReportThumbnail src={report.photoUrl} alt="" className="size-10" />
+        <ReportThumbnail src={report.thumbnailUrl} fallbackSrc={report.photoUrl} alt="" className="size-10" />
         <div className="flex min-w-0 flex-1 flex-col">
           <span className="truncate text-sm font-semibold">{report.description}</span>
           <span className="truncate text-xs text-muted-foreground">

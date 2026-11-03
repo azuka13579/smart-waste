@@ -11,13 +11,15 @@ type FilterSelectProps<T extends string> = {
   options: { value: T; label: string }[]
   /** Label saat tidak ada filter, misalnya "Semua kategori". */
   allLabel: string
+  /** Nama untuk pembaca layar, misalnya "Filter kategori"; tanpa ini yang terbaca hanya nilai terpilih. */
+  label?: string
   className?: string
 }
 
-export function FilterSelect<T extends string>({ value, onChange, options, allLabel, className }: FilterSelectProps<T>) {
+export function FilterSelect<T extends string>({ value, onChange, options, allLabel, label, className }: FilterSelectProps<T>) {
   return (
     <Select value={value || ALL} onValueChange={(next) => onChange(next === ALL ? "" : (next as T))}>
-      <SelectTrigger className={cn("w-full sm:w-44", className)}>
+      <SelectTrigger aria-label={label} className={cn("w-full sm:w-44", className)}>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

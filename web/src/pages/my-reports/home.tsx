@@ -4,6 +4,7 @@ import { Link } from "react-router"
 
 import { EmptyState } from "@/components/common/empty-state"
 import { Panel, PanelHeader, PanelSection } from "@/components/common/panel"
+import { QueryErrorState } from "@/components/common/query-error-state"
 import { ReportListItem } from "@/components/common/report-list-item"
 import { Stat, StatGroup } from "@/components/common/stat-card"
 import { ReportStatusBadge } from "@/components/common/status-badge"
@@ -42,22 +43,33 @@ export default function UserHomePage() {
         <PanelHeader title="Beranda" description={user?.name} actions={createButton} />
       </Panel>
 
-      <StatGroup className="lg:grid-cols-5">
-        <Stat
-          label="Total laporan"
-          value={formatNumber(summary?.total ?? 0)}
-          isLoading={summaryQuery.isPending}
-          className="col-span-2 lg:col-span-1"
-        />
-        {reportStatusOptions.map((option) => (
-          <Stat
-            key={option.value}
-            label={option.label}
-            value={formatNumber(summary?.byStatus[option.value] ?? 0)}
-            isLoading={summaryQuery.isPending}
+      {summaryQuery.isError ? (
+        <Panel>
+          <QueryErrorState
+            subject="ringkasan laporan"
+            error={summaryQuery.error}
+            onRetry={() => summaryQuery.refetch()}
+            isRetrying={summaryQuery.isFetching}
           />
-        ))}
-      </StatGroup>
+        </Panel>
+      ) : (
+        <StatGroup className="lg:grid-cols-5">
+          <Stat
+            label="Total laporan"
+            value={formatNumber(summary?.total ?? 0)}
+            isLoading={summaryQuery.isPending}
+            className="col-span-2 lg:col-span-1"
+          />
+          {reportStatusOptions.map((option) => (
+            <Stat
+              key={option.value}
+              label={option.label}
+              value={formatNumber(summary?.byStatus[option.value] ?? 0)}
+              isLoading={summaryQuery.isPending}
+            />
+          ))}
+        </StatGroup>
+      )}
 
       <Panel>
         <PanelSection className="flex items-center justify-between gap-3">
@@ -76,6 +88,13 @@ export default function UserHomePage() {
               <Skeleton key={index} className="h-10 w-full" />
             ))}
           </PanelSection>
+        ) : recentQuery.isError ? (
+          <QueryErrorState
+            subject="laporan terbaru"
+            error={recentQuery.error}
+            onRetry={() => recentQuery.refetch()}
+            isRetrying={recentQuery.isFetching}
+          />
         ) : recentReports.length === 0 ? (
           <EmptyState
             icon={FileTextIcon}

@@ -6,6 +6,8 @@ export type Report = {
   userId: string
   description: string
   photoUrl: string
+  /** Pratinjau 240×240 untuk tabel dan daftar; laporan lama bisa belum punya, jadi selalu sediakan `photoUrl` sebagai cadangan. */
+  thumbnailUrl: string
   latitude: number
   longitude: number
   address: string | null

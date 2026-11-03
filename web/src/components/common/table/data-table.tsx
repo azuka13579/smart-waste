@@ -19,6 +19,8 @@ type DataTableProps<TData> = {
   pagination?: Pagination | null
   onPageChange?: (page: number) => void
   onRowClick?: (row: TData) => void
+  /** Nama baris untuk pembaca layar, misalnya "Buka laporan: <deskripsi>". */
+  getRowLabel?: (row: TData) => string
   /** Ditampilkan saat data kosong dan tidak sedang memuat. */
   emptyState: ReactNode
   loadingRows?: number
@@ -34,6 +36,7 @@ export function DataTable<TData>({
   pagination,
   onPageChange,
   onRowClick,
+  getRowLabel,
   emptyState,
   loadingRows = 8,
   bordered = true,
@@ -82,7 +85,22 @@ export function DataTable<TData>({
               <TableRow
                 key={row.id}
                 onClick={onRowClick ? () => onRowClick(row.original) : undefined}
-                className={cn(onRowClick && "cursor-pointer")}
+                // Baris yang bisa diklik juga harus bisa dibuka lewat keyboard (Tab lalu Enter/Spasi)
+                tabIndex={onRowClick ? 0 : undefined}
+                aria-label={onRowClick && getRowLabel ? getRowLabel(row.original) : undefined}
+                onKeyDown={
+                  onRowClick
+                    ? (event) => {
+                        // Abaikan tombol di dalam baris (misalnya menu aksi) agar tidak ikut membuka baris
+                        if (event.target !== event.currentTarget || (event.key !== "Enter" && event.key !== " ")) return
+                        event.preventDefault()
+                        onRowClick(row.original)
+                      }
+                    : undefined
+                }
+                className={cn(
+                  onRowClick && "cursor-pointer outline-none focus-visible:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+                )}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className={cn("px-4 py-3 md:px-5", (cell.column.columnDef.meta as ColumnMeta)?.className)}>

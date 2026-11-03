@@ -37,7 +37,7 @@ export function ReportDetailView({ report, showReporter = false, categoryField }
 
         <Card className="gap-0 overflow-hidden py-0">
           <CardHeader className="py-4">
-            <CardTitle className="text-md font-bold">Peta lokasi</CardTitle>
+            <CardTitle role="heading" aria-level={2} className="text-base font-bold">Peta lokasi</CardTitle>
           </CardHeader>
           <LocationMap position={[report.latitude, report.longitude]} className="h-72 rounded-none border-x-0 border-b-0" />
         </Card>
@@ -46,7 +46,7 @@ export function ReportDetailView({ report, showReporter = false, categoryField }
       <div className="flex flex-col gap-4">
         <Card>
           <CardHeader>
-            <CardTitle className="text-md font-bold">Deskripsi</CardTitle>
+            <CardTitle role="heading" aria-level={2} className="text-base font-bold">Deskripsi</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-base leading-relaxed whitespace-pre-line">{report.description}</p>
@@ -55,7 +55,7 @@ export function ReportDetailView({ report, showReporter = false, categoryField }
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-md font-bold">Informasi</CardTitle>
+            <CardTitle role="heading" aria-level={2} className="text-base font-bold">Informasi</CardTitle>
           </CardHeader>
           <CardContent>
             <dl className="flex flex-col gap-4">
@@ -94,7 +94,7 @@ export function ReportDetailView({ report, showReporter = false, categoryField }
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-md font-bold">Riwayat status</CardTitle>
+            <CardTitle role="heading" aria-level={2} className="text-base font-bold">Riwayat status</CardTitle>
           </CardHeader>
           <CardContent>
             <StatusTimeline logs={report.statusLogs} />

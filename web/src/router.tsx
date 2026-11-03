@@ -1,3 +1,4 @@
+import { lazy } from "react"
 import { createBrowserRouter } from "react-router"
 
 import type { RouteHandle } from "@/components/common/app-breadcrumbs"
@@ -6,17 +7,19 @@ import { ROUTES } from "@/lib/constants"
 import { Permission } from "@/lib/enums/user"
 import { AuthLayout } from "@/layouts/auth-layout"
 import { DashboardLayout } from "@/layouts/dashboard-layout"
-import LoginPage from "@/pages/auth/login"
-import RegisterPage from "@/pages/auth/register"
-import HomePage from "@/pages/home"
-import MyReportsPage from "@/pages/my-reports"
-import CreateReportPage from "@/pages/my-reports/create"
-import MyReportDetailPage from "@/pages/my-reports/detail"
 import NotFoundPage from "@/pages/not-found"
-import ProfilePage from "@/pages/profile"
-import ReportDetailPage from "@/pages/reports/detail"
-import ReportsPage from "@/pages/reports"
-import UsersPage from "@/pages/users"
+
+// Setiap halaman jadi chunk sendiri; Recharts dan Leaflet hanya dimuat oleh halaman yang memakainya
+const LoginPage = lazy(() => import("@/pages/auth/login"))
+const RegisterPage = lazy(() => import("@/pages/auth/register"))
+const HomePage = lazy(() => import("@/pages/home"))
+const ProfilePage = lazy(() => import("@/pages/profile"))
+const ReportsPage = lazy(() => import("@/pages/reports"))
+const ReportDetailPage = lazy(() => import("@/pages/reports/detail"))
+const MyReportsPage = lazy(() => import("@/pages/my-reports"))
+const CreateReportPage = lazy(() => import("@/pages/my-reports/create"))
+const MyReportDetailPage = lazy(() => import("@/pages/my-reports/detail"))
+const UsersPage = lazy(() => import("@/pages/users"))
 
 const handle = (breadcrumb: string): RouteHandle => ({ breadcrumb })
 

@@ -16,7 +16,7 @@ export const reportColumns: ColumnDef<Report, unknown>[] = [
     header: "Laporan",
     cell: ({ row: { original: report } }) => (
       <div className="flex min-w-0 items-center gap-3">
-        <ReportThumbnail src={report.photoUrl} alt="" className="size-10" />
+        <ReportThumbnail src={report.thumbnailUrl} fallbackSrc={report.photoUrl} alt="" className="size-10" />
         <div className="flex min-w-0 flex-col">
           <span className="truncate font-semibold text-foreground">{report.description}</span>
           <span className="truncate text-xs text-muted-foreground">

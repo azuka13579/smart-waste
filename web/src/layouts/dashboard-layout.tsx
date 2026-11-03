@@ -1,7 +1,9 @@
+import { Suspense } from "react"
 import { Outlet } from "react-router"
 
 import { AppBreadcrumbs } from "@/components/common/app-breadcrumbs"
 import { AppSidebar } from "@/components/common/app-sidebar"
+import { PageSkeleton } from "@/components/common/page-skeleton"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
 export function DashboardLayout() {
@@ -15,7 +17,10 @@ export function DashboardLayout() {
           <AppBreadcrumbs />
         </header>
         <main className="flex w-full flex-1 flex-col gap-4 p-4 md:p-6">
-          <Outlet />
+          {/* Halaman dimuat per chunk; sidebar dan header tetap tampil selama halaman baru dimuat */}
+          <Suspense fallback={<PageSkeleton />}>
+            <Outlet />
+          </Suspense>
         </main>
       </SidebarInset>
     </SidebarProvider>

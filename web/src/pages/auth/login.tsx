@@ -1,6 +1,6 @@
 import { useForm } from "@tanstack/react-form"
 import { useMutation } from "@tanstack/react-query"
-import { Link, useNavigate, useSearchParams } from "react-router"
+import { Link } from "react-router"
 import { toast } from "sonner"
 
 import { FormErrorAlert } from "@/components/common/form-error-alert"
@@ -18,22 +18,15 @@ const LOGIN_ERROR_MESSAGES: Record<number, string> = {
   403: "Akun kamu sudah dinonaktifkan. Hubungi admin.",
 }
 
-/** Hanya path internal agar `?redirect=` tidak bisa dipakai untuk mengarahkan ke situs lain. */
-function getSafeRedirect(value: string | null) {
-  return value?.startsWith("/") && !value.startsWith("//") ? value : ROUTES.HOME
-}
-
 export default function LoginPage() {
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
   const setSession = useSetSession()
 
   const loginMutation = useMutation({
     mutationFn: login,
+    // Begitu sesi terisi, `GuestOnly` mengarahkan ke `?redirect=` (atau beranda)
     onSuccess: (response) => {
       setSession(response.data.user)
       toast.success(`Selamat datang, ${response.data.user.name}`)
-      navigate(getSafeRedirect(searchParams.get("redirect")), { replace: true })
     },
   })
 

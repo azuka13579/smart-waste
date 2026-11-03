@@ -1,6 +1,8 @@
 import { LeafIcon } from "lucide-react"
+import { Suspense } from "react"
 import { Outlet } from "react-router"
 
+import { Spinner } from "@/components/ui/spinner"
 import { APP_NAME } from "@/lib/constants"
 
 export function AuthLayout() {
@@ -21,7 +23,15 @@ export function AuthLayout() {
             <span className="text-sm font-semibold text-white">{APP_NAME}</span>
           </div>
           <div className="rounded-lg bg-card p-6 shadow-lg shadow-black/10 sm:p-8">
-            <Outlet />
+            <Suspense
+              fallback={
+                <div className="flex h-72 items-center justify-center">
+                  <Spinner className="size-5 text-primary" />
+                </div>
+              }
+            >
+              <Outlet />
+            </Suspense>
           </div>
         </div>
       </main>

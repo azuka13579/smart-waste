@@ -1,7 +1,11 @@
+import { lazy } from "react"
+
 import { isStaff } from "@/lib/access"
 import { useSession } from "@/lib/session"
-import DashboardPage from "@/pages/dashboard"
-import UserHomePage from "@/pages/my-reports/home"
+
+// Dashboard admin membawa Recharts; dipisah agar user biasa tidak ikut mengunduhnya
+const DashboardPage = lazy(() => import("@/pages/dashboard"))
+const UserHomePage = lazy(() => import("@/pages/my-reports/home"))
 
 /** Admin melihat dashboard statistik; user melihat ringkasan laporannya sendiri. */
 export default function HomePage() {

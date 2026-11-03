@@ -37,6 +37,11 @@ export const NAV_GROUPS: NavGroup[] = [
   },
 ]
 
+/** Tujuan setelah login dari `?redirect=`. Hanya path internal, agar tidak bisa dipakai mengarahkan ke situs lain. */
+export function getSafeRedirect(value: string | null) {
+  return value?.startsWith("/") && !value.startsWith("//") ? value : ROUTES.HOME
+}
+
 /** `/` hanya aktif persis di `/`; menu lain aktif juga untuk sub-halamannya, kecuali ada menu lain yang lebih spesifik. */
 export function isNavItemActive(pathname: string, url: string, allUrls: string[]) {
   if (url === ROUTES.HOME) return pathname === ROUTES.HOME

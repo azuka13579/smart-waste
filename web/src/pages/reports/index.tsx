@@ -57,6 +57,7 @@ export default function ReportsPage() {
           value={values.search}
           onSearch={(search) => setParams({ search })}
           placeholder="Cari deskripsi, alamat, atau pelapor"
+          label="Cari laporan"
           className="sm:w-80"
         />
         <FilterSelect
@@ -64,12 +65,14 @@ export default function ReportsPage() {
           onChange={(status) => setParams({ status })}
           options={reportStatusOptions}
           allLabel="Semua status"
+          label="Filter status"
         />
         <FilterSelect
           value={values.category as WasteCategory | ""}
           onChange={(category) => setParams({ category })}
           options={wasteCategoryOptions}
           allLabel="Semua kategori"
+          label="Filter kategori"
         />
         <div className="flex items-center gap-2">
           <Input
@@ -105,6 +108,7 @@ export default function ReportsPage() {
         pagination={pagination}
         onPageChange={(next) => setParams({ page: next })}
         onRowClick={(report) => navigate(ROUTES.REPORT.READ(report.id))}
+        getRowLabel={(report) => `Buka laporan: ${report.description}`}
         emptyState={
           reportsQuery.isError ? (
             <EmptyState icon={SearchXIcon} title="Gagal memuat laporan" description={getErrorMessage(reportsQuery.error)} />
