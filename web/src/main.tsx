@@ -15,7 +15,6 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 30_000,
-      // Jangan ulangi request yang memang ditolak (401/403/404/422...)
       retry: (failureCount, error) => !(error instanceof ApiError && error.status < 500) && failureCount < 2,
     },
   },
@@ -26,7 +25,7 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <RouterProvider router={router} />
-        <Toaster position="top-right" theme="light" richColors />
+        <Toaster position="bottom-right" theme="light" richColors />
       </TooltipProvider>
       <ReactQueryDevtools buttonPosition="bottom-right" />
     </QueryClientProvider>
