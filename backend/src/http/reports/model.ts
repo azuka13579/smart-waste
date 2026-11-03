@@ -13,6 +13,8 @@ export namespace ReportsModel {
 		.omit({ photoKey: true })
 		.extend({
 			photoUrl: z.url(),
+			/** 240×240 preview for lists; reports created before thumbnails existed only have it after `bun run thumbnails:backfill`. */
+			thumbnailUrl: z.url(),
 			user: z.object({ id: z.uuid(), name: z.string(), email: z.string() })
 		});
 

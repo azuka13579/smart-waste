@@ -3,7 +3,7 @@ import { and, asc, count, desc, eq, getTableColumns, ilike, or, type SQL, sql } 
 import { StatusMap, status } from "elysia";
 import { AppTimeZone, FileConfig, ReportStatus, ReportStatusValues } from "@/constants";
 import { reportStatusLogs, reports, users } from "@/database/schema";
-import { db, logger, readUploadedImage, type Session, storage, toReportPhoto, tryPredictWaste } from "@/modules";
+import { db, logger, readUploadedImage, type Session, storage, toReportPhoto, toReportThumbnail, tryPredictWaste } from "@/modules";
 import type { ReportsModel } from "./model";
 
 /**
@@ -32,6 +32,7 @@ export class ReportsService {
 		return {
 			...rest,
 			photoUrl: storage.getPublicUrl(photoKey),
+			thumbnailUrl: storage.getPublicUrl(FileConfig.ReportThumbnail.key(photoKey)),
 			createdAt: row.createdAt.toISOString(),
 			updatedAt: row.updatedAt.toISOString()
 		};
@@ -133,11 +134,12 @@ export class ReportsService {
 	public async create(data: ReportsModel.createBody) {
 		const { userId } = this.options.session;
 		const image = await readUploadedImage(data.photo);
-		const [prediction, photo] = await Promise.all([tryPredictWaste(image), toReportPhoto(image)]);
+		const [prediction, photo, thumbnail] = await Promise.all([tryPredictWaste(image), toReportPhoto(image), toReportThumbnail(image)]);
 
 		const reportId = randomUUIDv7();
 		const photoKey = FileConfig.ReportPhoto.key(reportId);
-		await storage.upload(photoKey, photo, "image/jpeg");
+		const thumbnailKey = FileConfig.ReportThumbnail.key(photoKey);
+		await Promise.all([storage.upload(photoKey, photo, "image/jpeg"), storage.upload(thumbnailKey, thumbnail, "image/jpeg")]);
 
 		try {
 			await db.transaction(async tx => {
@@ -156,7 +158,7 @@ export class ReportsService {
 				await tx.insert(reportStatusLogs).values({ reportId, changedBy: userId, fromStatus: null, toStatus: ReportStatus.Pending });
 			});
 		} catch (error) {
-			await storage.delete(photoKey).catch(err => logger.warn(err, `Failed to clean up photo ${photoKey}`));
+			await this.deletePhotos(photoKey);
 			throw error;
 		}
 
@@ -197,6 +199,12 @@ export class ReportsService {
 		this.assertOwnerCanModify(row, scope);
 
 		await db.delete(reports).where(eq(reports.id, id));
-		await storage.delete(row.photoKey).catch(err => logger.warn(err, `Failed to delete photo ${row.photoKey}`));
+		await this.deletePhotos(row.photoKey);
+	}
+
+	/** Remove the photo and its thumbnail; failures are logged, not thrown, so the DB change still wins. */
+	private async deletePhotos(photoKey: string) {
+		const keys = [photoKey, FileConfig.ReportThumbnail.key(photoKey)];
+		await Promise.all(keys.map(key => storage.delete(key).catch(err => logger.warn(err, `Failed to delete ${key}`))));
 	}
 }

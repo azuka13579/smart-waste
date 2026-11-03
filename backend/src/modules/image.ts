@@ -24,6 +24,12 @@ export async function readUploadedImage(file: File) {
 	return buffer;
 }
 
+/** Square, center-cropped thumbnail for list views (EXIF rotation applied). */
+export async function toReportThumbnail(buffer: Buffer) {
+	const config = FileConfig.ReportThumbnail;
+	return sharp(buffer).rotate().resize(config.dimension, config.dimension, { fit: "cover" }).jpeg({ quality: config.jpegQuality, mozjpeg: true }).toBuffer();
+}
+
 /** Normalize a report photo for storage: apply EXIF rotation, cap the size, re-encode as JPEG. */
 export async function toReportPhoto(buffer: Buffer) {
 	const config = FileConfig.ReportPhoto;

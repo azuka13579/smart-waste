@@ -8,6 +8,7 @@
 		"start": "bun run src/index.ts",
 		"db:generate": "drizzle-kit generate",
 		"seed:demo": "bun run src/database/seed-demo.ts",
+		"thumbnails:backfill": "bun run src/database/backfill-thumbnails.ts",
 		"check": "biome check",
 		"typecheck": "tsc --noEmit",
 		"test": "bun test",
