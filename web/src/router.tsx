@@ -8,9 +8,15 @@ import { AuthLayout } from "@/layouts/auth-layout"
 import { DashboardLayout } from "@/layouts/dashboard-layout"
 import LoginPage from "@/pages/auth/login"
 import RegisterPage from "@/pages/auth/register"
-import ComingSoonPage from "@/pages/coming-soon"
 import HomePage from "@/pages/home"
+import MyReportsPage from "@/pages/my-reports"
+import CreateReportPage from "@/pages/my-reports/create"
+import MyReportDetailPage from "@/pages/my-reports/detail"
 import NotFoundPage from "@/pages/not-found"
+import ProfilePage from "@/pages/profile"
+import ReportDetailPage from "@/pages/reports/detail"
+import ReportsPage from "@/pages/reports"
+import UsersPage from "@/pages/users"
 
 const handle = (breadcrumb: string): RouteHandle => ({ breadcrumb })
 
@@ -34,7 +40,7 @@ export const router = createBrowserRouter([
         element: <DashboardLayout />,
         children: [
           { path: ROUTES.HOME, element: <HomePage />, handle: handle("Beranda") },
-          { path: ROUTES.PROFILE, element: <ComingSoonPage title="Profil Saya" />, handle: handle("Profil Saya") },
+          { path: ROUTES.PROFILE, element: <ProfilePage />, handle: handle("Profil Saya") },
           {
             element: <RequirePermission permission={Permission.ManageReports} />,
             children: [
@@ -42,8 +48,8 @@ export const router = createBrowserRouter([
                 path: ROUTES.REPORT.INDEX,
                 handle: handle("Laporan Sampah"),
                 children: [
-                  { index: true, element: <ComingSoonPage title="Laporan Sampah" /> },
-                  { path: ":id", element: <ComingSoonPage title="Detail Laporan" />, handle: handle("Detail") },
+                  { index: true, element: <ReportsPage /> },
+                  { path: ":id", element: <ReportDetailPage />, handle: handle("Detail") },
                 ],
               },
             ],
@@ -55,16 +61,16 @@ export const router = createBrowserRouter([
                 path: ROUTES.MY_REPORT.INDEX,
                 handle: handle("Laporan Saya"),
                 children: [
-                  { index: true, element: <ComingSoonPage title="Laporan Saya" /> },
-                  { path: "create", element: <ComingSoonPage title="Buat Laporan" />, handle: handle("Buat Laporan") },
-                  { path: ":id", element: <ComingSoonPage title="Detail Laporan" />, handle: handle("Detail") },
+                  { index: true, element: <MyReportsPage /> },
+                  { path: "create", element: <CreateReportPage />, handle: handle("Buat Laporan") },
+                  { path: ":id", element: <MyReportDetailPage />, handle: handle("Detail") },
                 ],
               },
             ],
           },
           {
             element: <RequirePermission permission={Permission.ManageUsers} />,
-            children: [{ path: ROUTES.USER.INDEX, element: <ComingSoonPage title="Pengguna" />, handle: handle("Pengguna") }],
+            children: [{ path: ROUTES.USER.INDEX, element: <UsersPage />, handle: handle("Pengguna") }],
           },
         ],
       },

@@ -34,7 +34,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="h-16 justify-center border-b border-sidebar-border">
+      <SidebarHeader className="h-14 justify-center border-b border-sidebar-border">
         <Link to={ROUTES.HOME} className="px-1">
           <BrandLogo iconOnly={state === "collapsed" && !isMobile} />
         </Link>

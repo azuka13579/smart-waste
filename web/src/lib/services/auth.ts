@@ -1,6 +1,7 @@
 import { API_ROUTES } from "@/lib/constants"
 import { ApiError, jsonInit, readResponse } from "@/lib/http"
 import type { LoginPayload, RegisterPayload } from "@/lib/schemas/auth"
+import type { UpdateMePayload } from "@/lib/schemas/profile"
 import type { CurrentUser, SignInResult } from "@/lib/types/user"
 
 export async function login(payload: LoginPayload) {
@@ -16,6 +17,12 @@ export async function register(payload: RegisterPayload) {
 export async function logout() {
   const response = await fetch(API_ROUTES.AUTH.LOGOUT, jsonInit("DELETE"))
   return readResponse<{ message: string }>(response)
+}
+
+/** Ubah nama dan/atau password sendiri. Ganti password wajib menyertakan `currentPassword`. */
+export async function updateMe(payload: UpdateMePayload) {
+  const response = await fetch(API_ROUTES.USERS.ME, jsonInit("PATCH", payload))
+  return readResponse<CurrentUser>(response)
 }
 
 /** `null` berarti belum login (401), bukan error. */

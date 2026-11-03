@@ -9,12 +9,12 @@ export function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="bg-background">
-        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-card/90 px-4 backdrop-blur md:px-6">
+        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b bg-card px-4">
           <SidebarTrigger className="-ml-1" />
           <div aria-hidden className="mr-2 h-4 w-px bg-border" />
           <AppBreadcrumbs />
         </header>
-        <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 p-4 md:p-8">
+        <main className="flex w-full flex-1 flex-col gap-4 p-4 md:p-6">
           <Outlet />
         </main>
       </SidebarInset>

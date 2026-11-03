@@ -44,7 +44,7 @@ export default function RegisterPage() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-xl font-semibold">Daftar</h1>
-        <p className="text-sm text-muted-foreground">Akun warga untuk mengirim dan memantau laporan sampah.</p>
+        <p className="text-sm text-muted-foreground">Akun user untuk mengirim dan memantau laporan sampah.</p>
       </div>
 
       <form

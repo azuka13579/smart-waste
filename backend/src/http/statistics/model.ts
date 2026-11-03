@@ -35,7 +35,9 @@ export namespace StatisticsModel {
 
 	/* ── Query ──────────────────────────────────────── */
 	export const dashboardQuery = z.object({
-		days: z.coerce.number().int().min(1).max(365).default(30)
+		days: z.coerce.number().int().min(1).max(365).default(30),
+		/** Only narrows `daily` to reports currently in this status; totals and breakdowns stay unfiltered. */
+		status: z.enum(ReportStatus).optional()
 	});
 
 	export type dashboardQuery = z.output<typeof dashboardQuery>;

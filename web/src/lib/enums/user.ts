@@ -1,7 +1,6 @@
 /** Value harus sama persis dengan `constants/user.ts` di backend. */
 export const UserRole = {
   Admin: "admin",
-  Petugas: "petugas",
   User: "user",
 } as const
 
@@ -9,8 +8,7 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 export const userRoleLabels: Record<UserRole, string> = {
   [UserRole.Admin]: "Admin",
-  [UserRole.Petugas]: "Petugas",
-  [UserRole.User]: "Warga",
+  [UserRole.User]: "User",
 }
 
 export const userRoleOptions = Object.values(UserRole).map((value) => ({
