@@ -21,5 +21,5 @@ export const PermissionBitfield = new BitField(PermissionFlags);
 /** Permissions are derived from `users.role`; there is no role table. */
 export const RolePermissions: Record<UserRole, number> = {
 	[UserRole.Admin]: PermissionBitfield.resolve(["ADMINISTRATOR"]),
-	[UserRole.User]: PermissionBitfield.resolve(["SEND_REPORTS"]),
+	[UserRole.User]: PermissionBitfield.resolve(["SEND_REPORTS"])
 };

@@ -1,0 +1,13 @@
+# Always check out text files with LF, even with core.autocrlf=true on Windows.
+# Biome (backend) is configured with lineEnding "lf" and fails on CRLF.
+* text=auto eol=lf
+
+# Binary files: never convert
+*.onnx binary
+*.keras binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.zip binary
+*.apk binary
