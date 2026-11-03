@@ -197,7 +197,7 @@ export default function DashboardPage() {
       <Panel>
         <PanelSection className="flex items-center justify-between gap-3">
           <div>
-            <h2 className="font-semibold">Pending terbaru</h2>
+            <h2 className="font-semibold">Laporan terbaru</h2>
             <p className="text-sm text-muted-foreground">Laporan yang belum ditangani</p>
           </div>
           <Button variant="ghost" size="sm" asChild>

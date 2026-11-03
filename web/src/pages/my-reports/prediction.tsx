@@ -91,7 +91,7 @@ export function CategoryField({ field, prediction }: { field: AnyFieldApi; predi
         value={field.state.value as WasteCategory | ""}
         onChange={(value) => field.handleChange(value)}
         options={wasteCategoryOptions}
-        allLabel={modelCategory ? `Ikuti hasil model (${wasteCategoryLabels[modelCategory]})` : "Biarkan admin menentukan"}
+        allLabel={modelCategory ? `${wasteCategoryLabels[modelCategory]} (Hasil model)` : "Biarkan admin menentukan"}
         className="sm:w-full"
       />
       <FieldDescription>
