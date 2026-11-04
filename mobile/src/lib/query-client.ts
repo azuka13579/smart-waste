@@ -1,7 +1,9 @@
-import { focusManager, MutationCache, QueryCache, QueryClient } from "@tanstack/react-query"
+import { focusManager, MutationCache, onlineManager, QueryCache, QueryClient } from "@tanstack/react-query"
+import * as Network from "expo-network"
 import { AppState } from "react-native"
 
 import { ApiError, getSessionToken } from "@/lib/http"
+import { isOffline } from "@/lib/network"
 import { clearSession } from "@/lib/session"
 
 /** 401 saat sedang login berarti sesi sudah tidak berlaku: keluarkan user ke halaman login. */
@@ -22,3 +24,9 @@ export const queryClient = new QueryClient({
 
 // React Native tidak punya event "window focus"; anggap aplikasi fokus saat kembali ke foreground
 AppState.addEventListener("change", (status) => focusManager.setFocused(status === "active"))
+
+// Saat offline query ditunda (bukan gagal), lalu otomatis diulang begitu koneksi kembali
+onlineManager.setEventListener((setOnline) => {
+  const subscription = Network.addNetworkStateListener((state) => setOnline(!isOffline(state)))
+  return () => subscription.remove()
+})

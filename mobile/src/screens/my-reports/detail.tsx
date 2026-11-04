@@ -122,14 +122,15 @@ export default function ReportDetailScreen() {
             </Text>
 
             <SectionHeader title="Informasi" />
-            <View className="mx-5 rounded-xl border border-border">
+            {/* Daftar label-nilai tanpa bingkai; jarak antarbaris sudah cukup memisahkan */}
+            <View className="gap-5 px-5">
               <InfoRow label="Jenis sampah">
-                <Text variant="title-sm">{report.category ? wasteCategoryLabels[report.category] : "Belum dikategorikan"}</Text>
+                <Text>{report.category ? wasteCategoryLabels[report.category] : "Belum dikategorikan"}</Text>
               </InfoRow>
-              <InfoRow label="Hasil model klasifikasi" divided>
+              <InfoRow label="Hasil model klasifikasi">
                 <ModelResult report={report} />
               </InfoRow>
-              <InfoRow label="Lokasi" divided>
+              <InfoRow label="Lokasi">
                 <Pressable
                   accessibilityRole="link"
                   accessibilityHint="Membuka lokasi di aplikasi peta"
@@ -145,7 +146,7 @@ export default function ReportDetailScreen() {
                   </View>
                 </Pressable>
               </InfoRow>
-              <InfoRow label="Terakhir diperbarui" divided>
+              <InfoRow label="Terakhir diperbarui">
                 <Text variant="body-md">{formatDateTime(report.updatedAt)}</Text>
               </InfoRow>
             </View>
@@ -195,10 +196,10 @@ function StatusCard({ report }: { report: ReportDetail }) {
   )
 }
 
-function InfoRow({ label, divided = false, children }: { label: string; divided?: boolean; children: ReactNode }) {
+function InfoRow({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <View className={cn("gap-1 px-4 py-3", divided && "border-t border-border")}>
-      <Text variant="body-sm" className="text-muted-foreground">
+    <View className="gap-1">
+      <Text variant="body-sm" className="text-muted-foreground font-bold">
         {label}
       </Text>
       {children}

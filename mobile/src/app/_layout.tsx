@@ -13,6 +13,7 @@ import { StatusBar } from "expo-status-bar"
 import { useEffect } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 
+import { OfflineModal } from "@/components/common/offline-modal"
 import { QueryErrorState } from "@/components/common/query-error-state"
 import { SnackbarHost } from "@/components/ui/snackbar-host"
 import { queryClient } from "@/lib/query-client"
@@ -37,6 +38,7 @@ export default function RootLayout() {
       {/* Font gagal dimuat tidak boleh mengunci aplikasi; teks jatuh ke font sistem */}
       {(fontsLoaded || fontError) && <RootNavigator />}
       <SnackbarHost />
+      <OfflineModal />
     </QueryClientProvider>
   )
 }
@@ -67,16 +69,26 @@ function RootNavigator() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.primary } }}>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: colors.primary },
+        // Layar bertumpuk (detail, edit) masuk dari kanan dengan parallax dan bayangan, dianimasikan native
+        animation: "ios_from_right",
+        gestureEnabled: true,
+      }}
+    >
       <Stack.Protected guard={!!user}>
-        <Stack.Screen name="(tabs)" />
+        {/* Masuk/keluar akun berganti seluruh layar: cross-fade, bukan geser */}
+        <Stack.Screen name="(tabs)" options={{ animation: "fade" }} />
         <Stack.Screen name="reports/[id]/index" />
         <Stack.Screen name="reports/[id]/edit" />
       </Stack.Protected>
       {/* Didaftarkan langsung (bukan grup) agar pengalihan saat belum masuk selalu jatuh ke layar masuk */}
       <Stack.Protected guard={!user}>
-        <Stack.Screen name="login" />
-        <Stack.Screen name="register" />
+        {/* Masuk dan daftar berbagi panel hijau yang sama, jadi cross-fade membuatnya tampak satu layar */}
+        <Stack.Screen name="login" options={{ animation: "fade" }} />
+        <Stack.Screen name="register" options={{ animation: "fade" }} />
       </Stack.Protected>
     </Stack>
   )
