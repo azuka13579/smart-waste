@@ -40,13 +40,11 @@ Setiap foto laporan diklasifikasikan otomatis oleh model MobileNetV2 ke 6 katego
 - **Pengguna tidak pernah dihapus permanen**: admin hanya menonaktifkan akun, agar laporan tetap punya pemilik. Admin tidak bisa menonaktifkan atau mengubah role akunnya sendiri.
 - **Batas foto**: JPG, PNG, atau WebP, maksimal 10 MB.
 - **Nominatim** dibatasi sekitar 1 request per detik; pencarian alamat harus di-debounce.
-- **Konteks pengerjaan**: dibangun sebagai technical test untuk posisi Full Stack Developer di Bilcode, dengan tenggat 5 hari (2–6 November 2026).
 - **Belum diputuskan**: instansi pengelola (admin), domain produksi, dan apakah web dan API di-deploy di domain yang sama.
 
 ## Brand Commitments
 
 - Nama produk: **Smart Waste Management System** (disingkat "Smart Waste").
-- Design system di Figma: https://www.figma.com/design/BkXMmcKiNJ103l8kgacy1k/Smart-Waste-Management-System, dengan hijau sebagai warna brand dan font Plus Jakarta Sans.
 - Istilah yang wajib dipakai: **user** (bukan "warga"), **admin** (role petugas sudah dihapus), **model** atau **model klasifikasi** (bukan "AI").
 - Nada bahasa: lugas, profesional, dan tenang. **Tanpa emoji** di teks antarmuka, tanpa kalimat bergaya iklan.
 
