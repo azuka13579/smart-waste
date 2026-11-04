@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeftIcon, PencilIcon, Trash2Icon } from "lucide-react"
+import { PencilIcon, Trash2Icon } from "lucide-react"
 import { useState } from "react"
-import { Link, useNavigate, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { toast } from "sonner"
 
 import { ConfirmDialog } from "@/components/common/confirm-dialog"
@@ -60,13 +60,7 @@ export default function MyReportDetailPage() {
         <PanelHeader
           title="Detail Laporan"
           description={canModify ? "Laporan masih bisa diubah atau dihapus selama berstatus Pending." : "Laporan sudah ditangani dan tidak bisa diubah lagi."}
-          leading={
-            <Button variant="outline" size="icon-sm" asChild>
-              <Link to={ROUTES.MY_REPORT.INDEX} aria-label="Kembali ke Laporan Saya">
-                <ArrowLeftIcon />
-              </Link>
-            </Button>
-          }
+       
           actions={
             canModify && (
               <>

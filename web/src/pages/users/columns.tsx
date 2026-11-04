@@ -73,7 +73,7 @@ export function getUserColumns({ currentUserId, onEdit, onToggleActive }: UserCo
         const isSelf = user.id === currentUserId
         return (
           // Klik di menu tidak boleh ikut memicu klik baris (membuka dialog edit)
-          <div onClick={(event) => event.stopPropagation()}>
+          <div onClick={(event) => event.stopPropagation()} className="flex justify-end">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon-sm" aria-label={`Aksi untuk ${user.name}`}>

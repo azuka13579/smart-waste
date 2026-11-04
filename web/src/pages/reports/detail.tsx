@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeftIcon, ExternalLinkIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react"
+import { ExternalLinkIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react"
 import { useState } from "react"
-import { Link, useNavigate, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { toast } from "sonner"
 
 import { ConfirmDialog } from "@/components/common/confirm-dialog"
@@ -70,14 +70,6 @@ export default function ReportDetailPage() {
       <Panel>
         <PanelHeader
           title="Detail Laporan"
-          // description={<span className="font-mono text-xs">{report.id}</span>}
-          leading={
-            <Button variant="outline" size="icon-sm" asChild>
-              <Link to={ROUTES.REPORT.INDEX} aria-label="Kembali ke daftar laporan">
-                <ArrowLeftIcon />
-              </Link>
-            </Button>
-          }
           actions={
             <>
               <UpdateStatusDialog report={report} onUpdated={applyUpdate} />
