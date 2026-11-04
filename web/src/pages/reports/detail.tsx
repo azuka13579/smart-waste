@@ -70,7 +70,7 @@ export default function ReportDetailPage() {
       <Panel>
         <PanelHeader
           title="Detail Laporan"
-          description={<span className="font-mono text-xs">{report.id}</span>}
+          // description={<span className="font-mono text-xs">{report.id}</span>}
           leading={
             <Button variant="outline" size="icon-sm" asChild>
               <Link to={ROUTES.REPORT.INDEX} aria-label="Kembali ke daftar laporan">
