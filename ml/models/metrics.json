@@ -1,0 +1,118 @@
+{
+  "test_accuracy": 0.9022222222222223,
+  "accuracy_by_variant": {
+    "default": 0.9028697571743929,
+    "real_world": 0.901565995525727
+  },
+  "classification_report": {
+    "glass": {
+      "precision": 0.8421052631578947,
+      "recall": 0.96,
+      "f1-score": 0.897196261682243,
+      "support": 150.0
+    },
+    "metal": {
+      "precision": 0.9558823529411765,
+      "recall": 0.8666666666666667,
+      "f1-score": 0.9090909090909091,
+      "support": 150.0
+    },
+    "organic": {
+      "precision": 0.9013157894736842,
+      "recall": 0.9133333333333333,
+      "f1-score": 0.9072847682119205,
+      "support": 150.0
+    },
+    "paper": {
+      "precision": 0.9440559440559441,
+      "recall": 0.9,
+      "f1-score": 0.9215017064846417,
+      "support": 150.0
+    },
+    "plastic": {
+      "precision": 0.8456375838926175,
+      "recall": 0.84,
+      "f1-score": 0.842809364548495,
+      "support": 150.0
+    },
+    "textile": {
+      "precision": 0.9395973154362416,
+      "recall": 0.9333333333333333,
+      "f1-score": 0.9364548494983278,
+      "support": 150.0
+    },
+    "accuracy": 0.9022222222222223,
+    "macro avg": {
+      "precision": 0.9047657081595931,
+      "recall": 0.9022222222222224,
+      "f1-score": 0.9023896432527563,
+      "support": 900.0
+    },
+    "weighted avg": {
+      "precision": 0.9047657081595931,
+      "recall": 0.9022222222222223,
+      "f1-score": 0.9023896432527563,
+      "support": 900.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      144,
+      2,
+      0,
+      0,
+      3,
+      1
+    ],
+    [
+      7,
+      130,
+      1,
+      2,
+      7,
+      3
+    ],
+    [
+      3,
+      1,
+      137,
+      2,
+      6,
+      1
+    ],
+    [
+      1,
+      0,
+      4,
+      135,
+      7,
+      3
+    ],
+    [
+      16,
+      2,
+      3,
+      2,
+      126,
+      1
+    ],
+    [
+      0,
+      1,
+      7,
+      2,
+      0,
+      140
+    ]
+  ],
+  "class_names": [
+    "glass",
+    "metal",
+    "organic",
+    "paper",
+    "plastic",
+    "textile"
+  ],
+  "img_size": 224,
+  "epochs_trained": 30
+}

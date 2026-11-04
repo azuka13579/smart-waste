@@ -79,15 +79,6 @@ Model dijalankan langsung di backend Elysia (Bun) dengan `onnxruntime-node`, tan
    - mengekspor model ke `waste_classifier.onnx`,
    - membandingkan prediksi Keras dan ONNX pada 900 gambar test (harus identik),
    - menyimpan `onnx_reference.json` berisi probabilitas 12 gambar test sebagai acuan.
-2. Salin `waste_classifier.onnx`, `labels.json`, dan `onnx_reference.json` dari `MyDrive/smart-waste/outputs/` ke `ml/models/`.
-3. Uji model yang sama di Bun:
-
-   ```bash
-   cd onnx-check
-   bun install
-   bun run check.ts                 # bandingkan dengan hasil Colab
-   bun run check.ts path/ke/foto.jpg  # coba satu foto
-   ```
 
 Format model ONNX:
 
