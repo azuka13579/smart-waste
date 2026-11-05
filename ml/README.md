@@ -57,7 +57,7 @@ Model: MobileNetV2 (ImageNet) dengan *transfer learning* dua tahap:
 | Tahap | Layer yang dilatih | Learning rate | Epoch maks. |
 |---|---|---|---|
 | 1. Classifier head | Dense + Dropout | 1e-3 | 10 |
-| 2. Fine-tuning | + 30 layer terakhir MobileNetV2 | 1e-5 | 10 |
+| 2. Fine-tuning | + 30 layer terakhir MobileNetV2 | 1e-5 | 20 |
 
 Augmentasi (flip, rotasi, zoom, kontras, brightness) dan normalisasi ada di dalam model, jadi input untuk prediksi cukup gambar RGB 224×224 dengan nilai piksel 0–255. Training memakai *early stopping* pada `val_loss`.
 
@@ -65,8 +65,7 @@ Hasil tersimpan di `MyDrive/smart-waste/outputs/`. Salin ke repo sebagai berikut
 
 | File | Tujuan di repo |
 |---|---|
-| `waste_classifier.keras`, `labels.json` | `ml/models/` |
-| `confusion_matrix.png`, `training_history.png`, `classification_report.txt`, `metrics.json` | `docs/evaluation/` |
+| `labels.json`, `confusion_matrix.png`, `training_history.png`, `classification_report.txt`, `metrics.json` | `ml/models/` |
 
 `metrics.json` juga berisi akurasi terpisah untuk foto `default` dan `real_world`.
 
@@ -87,4 +86,4 @@ Format model ONNX:
 | Input | `float32 [N, 224, 224, 3]`, RGB, nilai piksel 0–255 (normalisasi sudah di dalam model) |
 | Output | `float32 [N, 6]`, probabilitas sesuai urutan `labels.json` |
 
-Preprocessing di [`onnx-check/classifier.ts`](onnx-check/classifier.ts): putar sesuai EXIF, potong persegi di tengah, resize ke 224×224. Foto HP yang tidak persegi jadi tidak gepeng. File ini nanti dipindah ke backend.
+Model ONNX dan `labels.json` disalin ke `backend/models/`. Preprocessing di backend ([`backend/src/modules/classifier.ts`](../backend/src/modules/classifier.ts)): putar sesuai EXIF, potong persegi di tengah, resize ke 224×224, sehingga foto HP yang tidak persegi tidak gepeng.

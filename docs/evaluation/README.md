@@ -28,6 +28,7 @@ Data test adalah 150 gambar per kelas yang tidak pernah dipakai saat training ma
 ## Analisis
 
 - **Kesalahan terbanyak terjadi antara plastic dan glass.** Botol plastik bening dan botol kaca sama-sama transparan dan memantulkan cahaya, sehingga precision glass (0,84) dan F1 plastic (0,84) menjadi yang terendah. Kaleng logam yang mengkilap juga beberapa kali tertukar dengan glass.
+- **Model sama baiknya untuk foto studio dan foto dunia nyata.** Akurasi pada foto `default` (latar polos) 90,29% dan pada foto `real_world` (sampah bertumpuk di lingkungan nyata) 90,16%. Ini penting karena foto dari aplikasi mobile termasuk jenis kedua.
 - **Textile dan paper paling mudah dikenali** (F1 0,94 dan 0,92) karena teksturnya khas.
 - **Tidak ada overfitting yang merugikan.** Akurasi test (90,2%) hampir sama dengan akurasi validasi (sekitar 90,7%). Fine-tuning 20 epoch menaikkan akurasi test dari 88,78% (10 epoch) ke 90,22%. Setelah epoch 21, akurasi train mulai melampaui validasi, jadi training tidak diperpanjang lagi.
 
@@ -43,11 +44,18 @@ Data test adalah 150 gambar per kelas yang tidak pernah dipakai saat training ma
 | Regularisasi | Dropout 0,3, early stopping pada `val_loss` (patience 3) |
 | Seed | 42 |
 
+## Grafik
+
+![Confusion matrix](../../ml/models/confusion_matrix.png)
+
+![Grafik training](../../ml/models/training_history.png)
+
 ## File
 
 | File | Isi |
 |---|---|
-| `confusion_matrix.png` | Confusion matrix pada data test |
-| `training_history.png` | Grafik akurasi dan loss per epoch (train dan validasi) |
-| `classification_report.txt` | Classification report lengkap |
-| `metrics.json` | Semua metrik dalam format JSON, termasuk akurasi terpisah untuk foto `default` (studio) dan `real_world` |
+| [`confusion_matrix.png`](../../ml/models/confusion_matrix.png) | Confusion matrix pada data test |
+| [`training_history.png`](../../ml/models/training_history.png) | Grafik akurasi dan loss per epoch (train dan validasi) |
+| [`classification_report.txt`](../../ml/models/classification_report.txt) | Classification report lengkap |
+| [`train_waste_classifier.ipynb`](../../ml/notebooks/train_waste_classifier.ipynb) | Notebook training beserta output-nya |
+| [`export_onnx.ipynb`](../../ml/notebooks/export_onnx.ipynb) | Export ke ONNX dan verifikasi 900/900 |

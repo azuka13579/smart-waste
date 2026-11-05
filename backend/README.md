@@ -101,7 +101,7 @@ Migrasi baru berjalan otomatis saat aplikasi start.
 
 ## Deploy
 
-Image Docker dibuat oleh GitHub Actions setiap ada push ke `main` (`ghcr.io/<owner>/backend:main-<tanggal>`), lalu di-deploy ke K3s oleh Flux. Tutorial lengkap: [`docs/DEPLOY.md`](docs/DEPLOY.md).
+Image Docker dibuat oleh GitHub Actions setiap ada push ke `main` (`ghcr.io/<owner>/backend:main-<tanggal>`), lalu di-deploy ke K3s oleh Flux.
 
 Untuk build lokal:
 

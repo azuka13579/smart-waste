@@ -10,15 +10,15 @@ Sistem pelaporan dan pengelolaan sampah. User (masyarakat) melaporkan tumpukan s
 | Demo website | https://smart-waste.karaha.me |
 | API (base URL) | https://smart-waste.karaha.me/api |
 | Dokumentasi API | https://smart-waste.karaha.me/api/docs (penjelasan lengkap: [`docs/api/`](docs/api/README.md)) |
-| APK Android | _TODO: link unduhan APK dari EAS Build_ |
+| APK Android | https://expo.dev/accounts/azuka13579/projects/smart-waste/builds/417dce8c-d969-4f67-941a-27eac6020ab9 |
 | Video demo | _TODO: link video_ |
-| Dataset yang dipakai | _TODO: link Google Drive `dataset_6class.zip`_ |
+| Dataset yang dipakai | https://drive.google.com/file/d/13Ak5_KvHSwB_ORA-t-3KMxNCepJk4lCu/view?usp=sharing |
 
 ## Akun Demo
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | _TODO_ | _TODO_ |
+| Admin | `admin@gmail.com` | `admin123` |
 | User | `budi@demo.smartwaste.id` | `demo12345` |
 
 Akun user baru juga bisa dibuat sendiri lewat halaman Daftar di website atau aplikasi.
@@ -150,18 +150,12 @@ Pindai QR code dengan Expo Go. Cara build APK ada di [`mobile/README.md`](mobile
 
 ### 5. Machine Learning (opsional)
 
-Model hasil training sudah ada di repo (`ml/models/` dan `backend/models/`), jadi langkah ini hanya untuk mengulang training. Penyusunan dataset, training, dan export ONNX dijelaskan di [`ml/README.md`](ml/README.md). Untuk memastikan model ONNX di Bun memberi hasil yang sama dengan di Colab:
-
-```bash
-cd ml/onnx-check
-bun install
-bun run check.ts
-```
+Model hasil training sudah ada di repo (`ml/models/` dan `backend/models/`), jadi langkah ini hanya untuk mengulang training. Penyusunan dataset, training di Google Colab, dan export ONNX dijelaskan di [`ml/README.md`](ml/README.md).
 
 ## Dataset
 
 - **Sumber**: Alistair King, *Recyclable and Household Waste Classification*, Kaggle. https://www.kaggle.com/datasets/alistairking/recyclable-and-household-waste-classification
-- **Salinan yang dipakai**: _TODO: link Google Drive `dataset_6class.zip`_
+- **Salinan yang dipakai**: https://drive.google.com/file/d/13Ak5_KvHSwB_ORA-t-3KMxNCepJk4lCu/view?usp=sharing
 - Dataset asli berisi 15.000 gambar dalam 30 subkategori. Subkategori digabung menjadi 6 kelas, lalu diambil **1.000 gambar per kelas** (total 6.000), seimbang antara foto studio dan foto dunia nyata, dan dibagi 70/15/15 untuk train, validasi, dan test. Script: [`ml/scripts/prepare_dataset.py`](ml/scripts/prepare_dataset.py).
 
 ## Hasil Evaluasi Model
@@ -173,18 +167,3 @@ bun run check.ts
 | Model ONNX vs Keras | prediksi identik, 900/900 |
 
 Classification report, confusion matrix, grafik training, dan analisisnya ada di [`docs/evaluation/`](docs/evaluation/README.md).
-
-## Checklist Pengumpulan
-
-| No | Yang diminta | Lokasi |
-|---|---|---|
-| 1 | GitHub repository | https://github.com/azuka13579/smart-waste |
-| 2 | Link demo website | https://smart-waste.karaha.me |
-| 3 | APK aplikasi mobile | Bagian [Link](#link) |
-| 4 | Dokumentasi API | https://smart-waste.karaha.me/api/docs dan [`docs/api/`](docs/api/README.md) |
-| 5 | Database schema / ERD | [`docs/erd/`](docs/erd/README.md) (gambar ERD, DBML, SQL) |
-| 6 | Source code dan model ML | [`ml/`](ml/README.md) (notebook, script, model `.onnx`) |
-| 7 | Dataset dan sumbernya | Bagian [Dataset](#dataset) |
-| 8 | Hasil evaluasi model | [`docs/evaluation/`](docs/evaluation/README.md) |
-| 9 | README panduan instalasi dan penggunaan | File ini, serta README di tiap folder |
-| 10 | Video demo | Bagian [Link](#link) |

@@ -20,7 +20,7 @@ CREATE TYPE "waste_category" AS ENUM (
 );
 
 CREATE TABLE "users" (
-  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "id" uuid PRIMARY KEY DEFAULT (uuidv7()),
   "name" varchar(100) NOT NULL,
   "email" varchar(255) UNIQUE NOT NULL,
   "password" varchar(255) NOT NULL,
@@ -30,8 +30,18 @@ CREATE TABLE "users" (
   "updated_at" timestamptz NOT NULL DEFAULT (now())
 );
 
+CREATE TABLE "user_sessions" (
+  "id" uuid PRIMARY KEY DEFAULT (uuidv7()),
+  "user_id" uuid NOT NULL,
+  "token" text UNIQUE NOT NULL,
+  "ip_address" text NOT NULL,
+  "user_agent" text NOT NULL,
+  "expires_at" timestamptz NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now())
+);
+
 CREATE TABLE "reports" (
-  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "id" uuid PRIMARY KEY DEFAULT (uuidv7()),
   "user_id" uuid NOT NULL,
   "description" text NOT NULL,
   "photo_key" varchar(255) NOT NULL,
@@ -47,7 +57,7 @@ CREATE TABLE "reports" (
 );
 
 CREATE TABLE "report_status_logs" (
-  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "id" uuid PRIMARY KEY DEFAULT (uuidv7()),
   "report_id" uuid NOT NULL,
   "changed_by" uuid NOT NULL,
   "from_status" report_status,
@@ -55,6 +65,8 @@ CREATE TABLE "report_status_logs" (
   "note" text,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
+
+CREATE INDEX ON "user_sessions" ("user_id");
 
 CREATE INDEX ON "reports" ("user_id");
 
@@ -66,7 +78,11 @@ CREATE INDEX ON "reports" ("category");
 
 CREATE INDEX ON "report_status_logs" ("report_id");
 
-COMMENT ON COLUMN "reports"."photo_key" IS 'Object key di Cloudflare R2';
+COMMENT ON COLUMN "users"."email" IS 'Selalu huruf kecil';
+
+COMMENT ON COLUMN "users"."password" IS 'Hash argon2id';
+
+COMMENT ON COLUMN "reports"."photo_key" IS 'Object key di storage (R2 / lokal)';
 
 COMMENT ON COLUMN "reports"."category" IS 'Kategori final (Model atau pilihan manual)';
 
@@ -83,3 +99,5 @@ ALTER TABLE "reports" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") DEFE
 ALTER TABLE "report_status_logs" ADD FOREIGN KEY ("changed_by") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
 
 ALTER TABLE "report_status_logs" ADD FOREIGN KEY ("report_id") REFERENCES "reports" ("id") ON DELETE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "user_sessions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
