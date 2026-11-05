@@ -36,7 +36,7 @@ export function AuthLayout() {
         </div>
       </main>
       <footer className="relative px-4 py-6 text-center text-xs text-white/60">
-        © {new Date().getFullYear()} {APP_NAME} Management System
+        © {new Date().getFullYear()} {APP_NAME} - Karaha
       </footer>
     </div>
   )
