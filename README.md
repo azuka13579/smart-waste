@@ -11,7 +11,7 @@ Sistem pelaporan dan pengelolaan sampah. User (masyarakat) melaporkan tumpukan s
 | API (base URL) | https://smart-waste.karaha.me/api |
 | Dokumentasi API | https://smart-waste.karaha.me/api/docs (penjelasan lengkap: [`docs/api/`](docs/api/README.md)) |
 | APK Android | https://expo.dev/accounts/azuka13579/projects/smart-waste/builds/417dce8c-d969-4f67-941a-27eac6020ab9 |
-| Video demo | _TODO: link video_ |
+| Video demo | https://drive.google.com/file/d/1HsjrVGhzV0l3jRB9xrMfOWPPLxlrbJaK/view?usp=sharing |
 | Dataset yang dipakai | https://drive.google.com/file/d/13Ak5_KvHSwB_ORA-t-3KMxNCepJk4lCu/view?usp=sharing |
 
 ## Akun Demo
