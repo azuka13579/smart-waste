@@ -63,7 +63,7 @@ export function UserMenu() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link to={ROUTES.PROFILE}>
+                <Link to={ROUTES.ADMIN.PROFILE}>
                   <UserIcon />
                   Profil Saya
                 </Link>

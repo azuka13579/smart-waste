@@ -21,7 +21,7 @@ bun run dev
 Saat start, aplikasi otomatis menjalankan migrasi di `drizzle/` dan membuat akun admin dari `ADMIN_EMAIL`/`ADMIN_PASSWORD` jika belum ada.
 
 - API: `http://localhost:8080`
-- Dokumentasi API (OpenAPI/Scalar): `http://localhost:8080/docs`, spesifikasi JSON di `/docs/json`
+- Dokumentasi API (OpenAPI/Scalar): `http://localhost:8080/docs`, spesifikasi JSON di `/docs/json`. Diatur dengan `DOCS_ENABLED`: aktif secara default saat development dan **nonaktif saat production** (`NODE_ENV=production`, misalnya di image Docker), sehingga `/docs` mengembalikan 404. Set `DOCS_ENABLED=true` untuk menyalakannya.
 - Health check: `/healthz`, `/readyz`
 
 Data demo (3 user dan 24 laporan tersebar di 14 hari terakhir, memakai foto dari `ml/data/dataset_6class/test`):

@@ -21,6 +21,12 @@ const env = z
 			),
 		DATABASE_URL: z.url(),
 
+		/** Serve OpenAPI docs at /docs. Defaults to on in development, off in production. */
+		DOCS_ENABLED: z
+			.enum(["true", "false"])
+			.default(isDevelopment ? "true" : "false")
+			.transform(value => value === "true"),
+
 		ADMIN_NAME: z.string().min(1).default("Administrator"),
 		ADMIN_EMAIL: z.email(),
 		ADMIN_PASSWORD: z.string().min(8),
@@ -54,6 +60,7 @@ export const {
 	APP_SECRET: appSecret,
 	APP_BASE_URL: appBaseUrl,
 	DATABASE_URL: databaseUrl,
+	DOCS_ENABLED: docsEnabled,
 	ADMIN_NAME: adminName,
 	ADMIN_EMAIL: adminEmail,
 	ADMIN_PASSWORD: adminPassword,

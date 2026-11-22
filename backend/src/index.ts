@@ -3,7 +3,7 @@ import openapi from "@elysiajs/openapi";
 import Elysia, { ElysiaCustomStatusResponse, status } from "elysia";
 import { BunAdapter } from "elysia/adapter/bun";
 import * as z from "zod";
-import { corsOrigin, serverHost, serverPort } from "./config";
+import { corsOrigin, docsEnabled, serverHost, serverPort } from "./config";
 import { RouteTag, RouteTagsMeta } from "./constants";
 import { Database } from "./database";
 import { AuthController } from "./http/auth";
@@ -117,6 +117,8 @@ const app = new Elysia({
 	.use(cors({ origin: corsOrigin, credentials: true }))
 	.use(
 		openapi({
+			// Off in production unless DOCS_ENABLED=true; /docs and /docs/json then return 404
+			enabled: docsEnabled,
 			documentation: {
 				info: {
 					title: "Smart Waste Management API",
@@ -193,7 +195,7 @@ if (import.meta.main) {
 		port: serverPort
 	});
 
-	logger.info(`🚀 smart-waste-backend is running at http://${app.server?.hostname}:${app.server?.port} (docs: /docs)`);
+	logger.info(`🚀 smart-waste-backend is running at http://${app.server?.hostname}:${app.server?.port} (docs: ${docsEnabled ? "/docs" : "disabled"})`);
 }
 
 export type { app };
