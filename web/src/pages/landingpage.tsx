@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function LandingPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-[oklch(0.42_0.095_157)] px-4 py-12">
