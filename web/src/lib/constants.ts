@@ -7,19 +7,24 @@ export const ROUTES = {
   HOME: "/",
   LOGIN: "/login",
   REGISTER: "/register",
-  PROFILE: "/profile",
-  REPORT: {
-    INDEX: "/reports",
-    READ: (id: string) => `/reports/${id}`,
+  ADMIN : {
+    DASHBOARD: "/admin/dashboard",
+    REPORTS: "/admin/reports",
+    PROFILE: "/admin/profile",
+    REPORT: {
+      INDEX: "/admin/reports",
+      READ: (id: string) => `/admin/reports/${id}`,
+    },
+    MY_REPORT: {
+      INDEX: "/admin/my-reports",
+      CREATE: "/admin/my-reports/create",
+      READ: (id: string) => `/admin/my-reports/${id}`,
+    },
+    USER: {
+      INDEX: "/admin/users",
+    }
   },
-  MY_REPORT: {
-    INDEX: "/my-reports",
-    CREATE: "/my-reports/create",
-    READ: (id: string) => `/my-reports/${id}`,
-  },
-  USER: {
-    INDEX: "/users",
-  },
+  
 } as const
 
 export const API_ROUTES = Object.freeze({

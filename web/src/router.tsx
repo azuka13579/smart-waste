@@ -10,6 +10,7 @@ import { DashboardLayout } from "@/layouts/dashboard-layout"
 import NotFoundPage from "@/pages/not-found"
 
 // Setiap halaman jadi chunk sendiri; Recharts dan Leaflet hanya dimuat oleh halaman yang memakainya
+const LandingPage = lazy(() => import("@/pages/landingpage"))
 const LoginPage = lazy(() => import("@/pages/auth/login"))
 const RegisterPage = lazy(() => import("@/pages/auth/register"))
 const HomePage = lazy(() => import("@/pages/home"))
@@ -24,6 +25,10 @@ const UsersPage = lazy(() => import("@/pages/users"))
 const handle = (breadcrumb: string): RouteHandle => ({ breadcrumb })
 
 export const router = createBrowserRouter([
+  {
+    path: ROUTES.HOME,
+    element: <LandingPage />,
+  },
   {
     element: <GuestOnly />,
     children: [
@@ -42,13 +47,13 @@ export const router = createBrowserRouter([
       {
         element: <DashboardLayout />,
         children: [
-          { path: ROUTES.HOME, element: <HomePage />, handle: handle("Beranda") },
-          { path: ROUTES.PROFILE, element: <ProfilePage />, handle: handle("Profil Saya") },
+          { path: ROUTES.ADMIN.DASHBOARD, element: <HomePage />, handle: handle("Beranda") },
+          { path: ROUTES.ADMIN.PROFILE, element: <ProfilePage />, handle: handle("Profil Saya") },
           {
             element: <RequirePermission permission={Permission.ManageReports} />,
             children: [
               {
-                path: ROUTES.REPORT.INDEX,
+                path: ROUTES.ADMIN.REPORT.INDEX,
                 handle: handle("Laporan Sampah"),
                 children: [
                   { index: true, element: <ReportsPage /> },
@@ -61,7 +66,7 @@ export const router = createBrowserRouter([
             element: <RequirePermission permission={Permission.SendReports} bypassAdministrator={false} />,
             children: [
               {
-                path: ROUTES.MY_REPORT.INDEX,
+                path: ROUTES.ADMIN.MY_REPORT.INDEX,
                 handle: handle("Laporan Saya"),
                 children: [
                   { index: true, element: <MyReportsPage /> },
@@ -73,7 +78,7 @@ export const router = createBrowserRouter([
           },
           {
             element: <RequirePermission permission={Permission.ManageUsers} />,
-            children: [{ path: ROUTES.USER.INDEX, element: <UsersPage />, handle: handle("Pengguna") }],
+            children: [{ path: ROUTES.ADMIN.USER.INDEX, element: <UsersPage />, handle: handle("Pengguna") }],
           },
         ],
       },

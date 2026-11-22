@@ -24,16 +24,16 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Menu",
     items: [
-      { title: "Dashboard", url: ROUTES.HOME, icon: LayoutDashboardIcon, isVisible: isStaff },
-      { title: "Beranda", url: ROUTES.HOME, icon: HomeIcon, isVisible: (user) => !isStaff(user) },
-      { title: "Laporan Sampah", url: ROUTES.REPORT.INDEX, icon: ClipboardListIcon, isVisible: (user) => can(user, Permission.ManageReports) },
-      { title: "Laporan Saya", url: ROUTES.MY_REPORT.INDEX, icon: FileTextIcon, isVisible: isCitizen },
-      { title: "Buat Laporan", url: ROUTES.MY_REPORT.CREATE, icon: CameraIcon, isVisible: isCitizen },
+      { title: "Dashboard", url: ROUTES.ADMIN.DASHBOARD, icon: LayoutDashboardIcon, isVisible: isStaff },
+      { title: "Beranda", url: ROUTES.ADMIN.DASHBOARD, icon: HomeIcon, isVisible: (user) => !isStaff(user) },
+      { title: "Laporan Sampah", url: ROUTES.ADMIN.REPORT.INDEX, icon: ClipboardListIcon, isVisible: (user) => can(user, Permission.ManageReports) },
+      { title: "Laporan Saya", url: ROUTES.ADMIN.MY_REPORT.INDEX, icon: FileTextIcon, isVisible: isCitizen },
+      { title: "Buat Laporan", url: ROUTES.ADMIN.MY_REPORT.CREATE, icon: CameraIcon, isVisible: isCitizen },
     ],
   },
   {
     label: "Administrasi",
-    items: [{ title: "Pengguna", url: ROUTES.USER.INDEX, icon: UsersIcon, isVisible: (user) => can(user, Permission.ManageUsers) }],
+    items: [{ title: "Pengguna", url: ROUTES.ADMIN.USER.INDEX, icon: UsersIcon, isVisible: (user) => can(user, Permission.ManageUsers) }],
   },
 ]
 

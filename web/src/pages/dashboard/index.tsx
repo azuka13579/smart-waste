@@ -28,7 +28,7 @@ const RANGE_OPTIONS = [
   { value: "90", label: "90 hari terakhir" },
 ]
 
-const reportsWith = (params: Record<string, string>) => `${ROUTES.REPORT.INDEX}?${new URLSearchParams(params).toString()}`
+const reportsWith = (params: Record<string, string>) => `${ROUTES.ADMIN.REPORT.INDEX}?${new URLSearchParams(params).toString()}`
 
 export default function DashboardPage() {
   const { user } = useSession()
@@ -227,7 +227,7 @@ export default function DashboardPage() {
               <ReportListItem
                 key={report.id}
                 report={report}
-                to={ROUTES.REPORT.READ(report.id)}
+                to={ROUTES.ADMIN.REPORT.READ(report.id)}
                 trailing={
                   <>
                     <span className="hidden shrink-0 text-sm text-muted-foreground sm:block">{report.user.name}</span>
