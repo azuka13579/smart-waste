@@ -54,7 +54,7 @@ export default function CreateReportPage() {
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["my-reports"] })
       toast.success("Laporan terkirim")
-      navigate(ROUTES.MY_REPORT.READ(response.data.id), { replace: true })
+      navigate(ROUTES.ADMIN.MY_REPORT.READ(response.data.id), { replace: true })
     },
   })
 
@@ -90,7 +90,7 @@ export default function CreateReportPage() {
           description="Laporkan tumpukan sampah agar segera ditindaklanjuti."
           leading={
             <Button variant="outline" size="icon-sm" asChild>
-              <Link to={ROUTES.MY_REPORT.INDEX} aria-label="Kembali ke Laporan Saya">
+              <Link to={ROUTES.ADMIN.MY_REPORT.INDEX} aria-label="Kembali ke Laporan Saya">
                 <ArrowLeftIcon />
               </Link>
             </Button>
@@ -201,7 +201,7 @@ export default function CreateReportPage() {
 
           <PanelSection className="flex justify-end gap-2 bg-muted/30 py-3">
             <Button type="button" variant="outline" asChild>
-              <Link to={ROUTES.MY_REPORT.INDEX}>Batal</Link>
+              <Link to={ROUTES.ADMIN.MY_REPORT.INDEX}>Batal</Link>
             </Button>
             <form.Subscribe
               selector={(state) => state.isSubmitting}

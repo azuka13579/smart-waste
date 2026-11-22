@@ -30,7 +30,7 @@ export default function UserHomePage() {
 
   const createButton = (
     <Button asChild>
-      <Link to={ROUTES.MY_REPORT.CREATE}>
+      <Link to={ROUTES.ADMIN.MY_REPORT.CREATE}>
         <CameraIcon />
         Buat laporan
       </Link>
@@ -78,7 +78,7 @@ export default function UserHomePage() {
             <p className="text-sm text-muted-foreground">Lima laporan terakhir yang kamu kirim</p>
           </div>
           <Button variant="ghost" size="sm" asChild>
-            <Link to={ROUTES.MY_REPORT.INDEX}>Lihat semua</Link>
+            <Link to={ROUTES.ADMIN.MY_REPORT.INDEX}>Lihat semua</Link>
           </Button>
         </PanelSection>
 
@@ -108,7 +108,7 @@ export default function UserHomePage() {
               <ReportListItem
                 key={report.id}
                 report={report}
-                to={ROUTES.MY_REPORT.READ(report.id)}
+                to={ROUTES.ADMIN.MY_REPORT.READ(report.id)}
                 trailing={
                   <>
                     <ReportStatusBadge status={report.status} className="hidden w-24 shrink-0 sm:inline-flex" />

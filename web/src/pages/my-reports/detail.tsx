@@ -32,7 +32,7 @@ export default function MyReportDetailPage() {
       queryClient.removeQueries({ queryKey: ["my-reports", id] })
       queryClient.invalidateQueries({ queryKey: ["my-reports"] })
       toast.success("Laporan dihapus")
-      navigate(ROUTES.MY_REPORT.INDEX, { replace: true })
+      navigate(ROUTES.ADMIN.MY_REPORT.INDEX, { replace: true })
     },
     onError: (error) => {
       setIsDeleteOpen(false)
@@ -49,7 +49,7 @@ export default function MyReportDetailPage() {
   }
 
   if (reportQuery.isPending) return <ReportDetailSkeleton />
-  if (!report) return <ReportNotFound error={reportQuery.error} backTo={ROUTES.MY_REPORT.INDEX} />
+  if (!report) return <ReportNotFound error={reportQuery.error} backTo={ROUTES.ADMIN.MY_REPORT.INDEX} />
 
   // Aturan backend: laporan sendiri hanya bisa diubah atau dihapus selama belum ditangani
   const canModify = report.status === ReportStatus.Pending

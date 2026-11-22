@@ -44,7 +44,7 @@ export default function MyReportsPage() {
 
   const createButton = (
     <Button asChild>
-      <Link to={ROUTES.MY_REPORT.CREATE}>
+      <Link to={ROUTES.ADMIN.MY_REPORT.CREATE}>
         <CameraIcon />
         Buat laporan
       </Link>
@@ -94,7 +94,7 @@ export default function MyReportsPage() {
         isLoading={reportsQuery.isPending}
         pagination={pagination}
         onPageChange={(next) => setParams({ page: next })}
-        onRowClick={(report) => navigate(ROUTES.MY_REPORT.READ(report.id))}
+        onRowClick={(report) => navigate(ROUTES.ADMIN.MY_REPORT.READ(report.id))}
         getRowLabel={(report) => `Buka laporan: ${report.description}`}
         emptyState={
           reportsQuery.isError ? (

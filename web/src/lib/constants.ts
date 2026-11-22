@@ -8,24 +8,26 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   ADMIN : {
-    DASHBOARD: "/admin/dashboard",
-    REPORTS: "/admin/reports",
-    PROFILE: "/admin/profile",
+    DASHBOARD: "/dashboard",
+    REPORTS: "/reports",
+    PROFILE: "/profile",
     REPORT: {
-      INDEX: "/admin/reports",
-      READ: (id: string) => `/admin/reports/${id}`,
+      INDEX: "/reports",
+      READ: (id: string) => `/reports/${id}`,
     },
     MY_REPORT: {
-      INDEX: "/admin/my-reports",
-      CREATE: "/admin/my-reports/create",
-      READ: (id: string) => `/admin/my-reports/${id}`,
+      INDEX: "/my-reports",
+      CREATE: "/my-reports/create",
+      READ: (id: string) => `/my-reports/${id}`,
     },
     USER: {
-      INDEX: "/admin/users",
+      INDEX: "/users",
     }
   },
   
 } as const
+
+export const ADMIN_ROUTES = import.meta.env.VITE_ADMIN_URL ?? "https://admin.karaha.me"
 
 export const API_ROUTES = Object.freeze({
   AUTH: Object.freeze({

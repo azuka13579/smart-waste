@@ -57,13 +57,13 @@ export default function ReportDetailPage() {
       queryClient.invalidateQueries({ queryKey: ["reports"] })
       queryClient.invalidateQueries({ queryKey: ["statistics"] })
       toast.success("Laporan dihapus")
-      navigate(ROUTES.REPORT.INDEX, { replace: true })
+      navigate(ROUTES.ADMIN.REPORT.INDEX, { replace: true })
     },
     onError: (error) => toast.error(getErrorMessage(error, "Gagal menghapus laporan")),
   })
 
   if (reportQuery.isPending) return <ReportDetailSkeleton />
-  if (!report) return <ReportNotFound error={reportQuery.error} backTo={ROUTES.REPORT.INDEX} />
+  if (!report) return <ReportNotFound error={reportQuery.error} backTo={ROUTES.ADMIN.REPORT.INDEX} />
 
   return (
     <>

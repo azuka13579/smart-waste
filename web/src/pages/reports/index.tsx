@@ -107,7 +107,7 @@ export default function ReportsPage() {
         isLoading={reportsQuery.isPending}
         pagination={pagination}
         onPageChange={(next) => setParams({ page: next })}
-        onRowClick={(report) => navigate(ROUTES.REPORT.READ(report.id))}
+        onRowClick={(report) => navigate(ROUTES.ADMIN.REPORT.READ(report.id))}
         getRowLabel={(report) => `Buka laporan: ${report.description}`}
         emptyState={
           reportsQuery.isError ? (

@@ -24,12 +24,18 @@ const UsersPage = lazy(() => import("@/pages/users"))
 
 const handle = (breadcrumb: string): RouteHandle => ({ breadcrumb })
 
-export const router = createBrowserRouter([
+const isAdminHost = window.location.hostname.startsWith("admin.")
+
+const publicRoutes = [
   {
     path: ROUTES.HOME,
     element: <LandingPage />,
   },
-  {
+  {path: "*", element: <NotFoundPage />},
+]
+
+const adminRoutes = [
+   {
     element: <GuestOnly />,
     children: [
       {
@@ -85,4 +91,6 @@ export const router = createBrowserRouter([
     ],
   },
   { path: "*", element: <NotFoundPage /> },
-])
+]
+
+export const router = createBrowserRouter(isAdminHost ? adminRoutes : publicRoutes)

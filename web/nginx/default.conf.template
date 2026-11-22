@@ -42,4 +42,20 @@ server {
         add_header Cache-Control "no-cache";
         try_files $uri $uri/ /index.html;
     }
+
+    # Dashboard pindah ke subdomain: /admin/reports → https://admin.karaha.me/reports
+    # (berlaku di kedua host, jadi bookmark lama tetap jalan)
+    location ~ ^/admin(/.*)?$ {
+        return 404;
+    }
+
+    # Login & register hanya di subdomain admin
+    location ~ ^/(login|register)$ {
+        if ($host != "admin.karaha.me") {
+            return 404;
+        }
+        include /etc/nginx/snippets/security-headers.conf;
+        add_header Cache-Control "no-cache";
+        try_files $uri /index.html;
+    }
 }
